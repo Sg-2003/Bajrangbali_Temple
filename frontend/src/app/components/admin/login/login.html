@@ -1,0 +1,60 @@
+<div class="login-wrapper section reveal">
+  <div class="login-card card">
+    <div class="login-header">
+      <div class="temple-icon">🪔</div>
+      <h2>Temple Login Portal</h2>
+      <p>Enter your credentials to access your devotee dashboard or admin panel</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-banner">
+        ⚠️ {{ errorMessage() }}
+      </div>
+    }
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-control" 
+          [(ngModel)]="email" 
+          required 
+          placeholder="yourname@example.com"
+          #emailInput="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          [(ngModel)]="password" 
+          required 
+          placeholder="••••••••"
+          #passwordInput="ngModel">
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary login-btn" 
+        [disabled]="isSubmitting() || !loginForm.form.valid">
+        @if (isSubmitting()) {
+          Verifying...
+        } @else {
+          Access Dashboard
+        }
+      </button>
+    </form>
+    
+    <div class="info-note">
+      <p>💡 Default admin credentials (auto-seeded):</p>
+      <code>admin@temple.com</code> / <code>admin123</code>
+      <p style="margin-top: 15px;">New devotee? <a routerLink="/register" style="color: var(--primary); font-weight: 600; text-decoration: underline;">Register here</a></p>
+    </div>
+  </div>
+</div>

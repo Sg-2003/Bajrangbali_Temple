@@ -1,0 +1,96 @@
+<div class="register-wrapper section reveal">
+  <div class="register-card card">
+    <div class="register-header">
+      <div class="temple-icon">🌺</div>
+      <h2>Devotee Registration</h2>
+      <p>Create an account to track your bookings, donations, and receive blessings</p>
+    </div>
+
+    @if (errorMsg()) {
+      <div class="error-banner">
+        ⚠️ {{ errorMsg() }}
+      </div>
+    }
+
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input 
+          type="text" 
+          id="name" 
+          name="name" 
+          class="form-control" 
+          [(ngModel)]="name" 
+          required 
+          placeholder="Enter your name"
+          #nameInput="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          class="form-control" 
+          [(ngModel)]="email" 
+          required 
+          placeholder="yourname@example.com"
+          #emailInput="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="mobile">Mobile Number</label>
+        <input 
+          type="tel" 
+          id="mobile" 
+          name="mobile" 
+          class="form-control" 
+          [(ngModel)]="mobile" 
+          placeholder="e.g. +91 9876543210"
+          #mobileInput="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control" 
+          [(ngModel)]="password" 
+          required 
+          placeholder="••••••••"
+          #passwordInput="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password *</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          name="confirmPassword" 
+          class="form-control" 
+          [(ngModel)]="confirmPassword" 
+          required 
+          placeholder="••••••••"
+          #confirmPasswordInput="ngModel">
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-primary register-btn" 
+        [disabled]="loading() || !registerForm.form.valid">
+        @if (loading()) {
+          Creating Account...
+        } @else {
+          Create Devotee Account
+        }
+      </button>
+    </form>
+    
+    <div class="info-note">
+      <p>Already have an account? <a routerLink="/login">Log in here</a></p>
+    </div>
+  </div>
+</div>

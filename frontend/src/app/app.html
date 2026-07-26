@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+<app-chatbot></app-chatbot>
+
+<!-- High Priority Announcement Popup Modal -->
+@if (activeAnnouncement()) {
+  <div class="announcement-popup-overlay" (click)="closeAnnouncement()">
+    <div class="announcement-popup card" (click)="$event.stopPropagation()">
+      <button class="close-popup-btn" (click)="closeAnnouncement()">&times;</button>
+      <div class="popup-icon">🔔</div>
+      <h3>{{ activeAnnouncement().title }}</h3>
+      <p class="popup-date">Published: {{ activeAnnouncement().createdAt | date:'medium' }}</p>
+      <div class="popup-desc">
+        <p>{{ activeAnnouncement().description }}</p>
+      </div>
+      <button class="btn btn-primary close-action-btn" (click)="closeAnnouncement()">Acknowledge & Close</button>
+    </div>
+  </div>
+}
+
+<app-footer></app-footer>

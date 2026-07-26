@@ -1,0 +1,145 @@
+/* About Section Custom Layout */
+.about-text h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.lead {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  margin-bottom: 15px;
+  color: var(--text-dark);
+}
+
+.about-image-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image-border-glow {
+  padding: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-hover);
+  max-width: 100%;
+}
+
+.about-hero-img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+.location-tag {
+  margin-top: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-size: 1rem;
+}
+
+/* Teachings / Virtues */
+.teachings-section {
+  background-color: var(--bg-cream);
+  padding: 80px 20px;
+  border-top: 1px solid rgba(230, 81, 0, 0.05);
+  border-bottom: 1px solid rgba(230, 81, 0, 0.05);
+  transition: var(--transition);
+}
+
+.teaching-card {
+  text-align: center;
+}
+
+.teaching-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.teaching-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+
+.teaching-card p {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+/* Seva Section */
+.community-info h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.seva-list {
+  list-style: none;
+}
+
+.seva-list li {
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 25px;
+  color: var(--text-dark);
+}
+
+.seva-list li::before {
+  content: '🔶';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  font-size: 0.8rem;
+}
+
+.seva-highlight {
+  background: linear-gradient(135deg, #FFFDE7, #FFF9C4);
+  border: 1px solid var(--accent);
+  transition: var(--transition);
+}
+
+.seva-highlight h3 {
+  color: var(--primary-dark);
+  margin-bottom: 15px;
+}
+
+.highlight-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: var(--text-dark);
+}
+
+.shloka-citation {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--primary-dark);
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+.align-center {
+  align-items: center;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-hero-img { max-width: 100%; }
+}

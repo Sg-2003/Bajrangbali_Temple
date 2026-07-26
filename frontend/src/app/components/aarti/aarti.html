@@ -1,0 +1,103 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>Daily Aarti & Divine Rituals</h1>
+    <p>Chant along and immerse yourself in the divine presence of Lord Hanuman</p>
+  </div>
+</section>
+
+<div class="aarti-container section reveal">
+
+  <!-- Full Hanuman Chalisa Sound Player Panel for Rituals -->
+  <div class="ritual-audio-card card" [class.playing-active]="isPlaying()">
+
+    <div class="ritual-audio-header">
+      <div class="ritual-icon">🚩</div>
+      <div class="ritual-details">
+        <h3>Shree Hanuman Chalisa — Entire Ritual Sound & Chanting 🪔</h3>
+        <p>Listen to the complete sacred 40-verse hymn during temple ritual worship</p>
+      </div>
+    </div>
+
+    <div class="ritual-controls">
+      <button class="btn btn-primary play-ritual-btn" (click)="togglePlay()">
+        @if (isPlaying()) {
+          <span>⏸️ Pause Hanuman Chalisa</span>
+        } @else {
+          <span>▶️ Play Entire Hanuman Chalisa Sound</span>
+        }
+      </button>
+
+      <button class="btn btn-secondary btn-sm" (click)="triggerTestAartiAutoPlay()" title="Simulate Aarti time auto-play">
+        ⚡ Test Aarti Auto-Play
+      </button>
+
+      <button class="btn-icon mute-btn" (click)="toggleMute()">
+        {{ isMuted() ? '🔇' : '🔊' }}
+      </button>
+    </div>
+
+    @if (autoPlayNotice()) {
+      <div class="autoplay-badge">
+        🔔 <strong>Aarti Time Reached!</strong> Automatically playing sacred chanting for the ritual ceremony.
+      </div>
+    }
+
+    @if (isPlaying()) {
+      <div class="ritual-scrubber-wrap">
+        <span class="time-label">{{ formatTime(currentTime()) }}</span>
+        <input 
+          type="range" 
+          class="ritual-scrubber" 
+          min="0" 
+          [max]="duration() || 100" 
+          [value]="currentTime()" 
+          (input)="seekAudio($event)">
+        <span class="time-label">{{ formatTime(duration()) }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Countdown Timer Banner -->
+  <div class="countdown-banner" [class.active-aarti]="isAartiActive()">
+    <div class="banner-overlay"></div>
+    <div class="countdown-content">
+      <span class="countdown-label">Next Divine Ritual</span>
+      <h3 class="aarti-name">{{ nextAartiName() }}</h3>
+      <div class="timer-display">
+        <span class="timer-digits">{{ countdownString() }}</span>
+      </div>
+      @if (isAartiActive()) {
+        <p class="timer-desc">Join the community inside the main hall for chanting right now! 🪔</p>
+      } @else {
+        <p class="timer-desc">Remaining time until the Aarti ceremony begins</p>
+      }
+    </div>
+  </div>
+
+  <!-- Timings Grid -->
+  <div class="grid grid-2 timings-container">
+    @for (aarti of aartiList; track aarti.name) {
+      <div class="card aarti-card">
+        <div class="aarti-header">
+          <div class="aarti-icon">🪔</div>
+          <div class="aarti-meta">
+            <h3>{{ aarti.name }}</h3>
+            <span class="aarti-time">{{ aarti.time }}</span>
+          </div>
+        </div>
+        <p class="aarti-desc">{{ aarti.desc }}</p>
+      </div>
+    }
+  </div>
+
+  <!-- Special Schedule Notes -->
+  <div class="special-schedule-box">
+    <h3>💡 Saturday & Tuesday Special Timings</h3>
+    <p>
+      On holy Tuesdays and Saturdays, the temple gates remain open continuously from <strong>05:30 AM to 09:30 PM</strong>.
+      Special congregational Sundarkand Path chanting is organized on Saturdays at <strong>05:30 PM</strong>, followed by the grand Sandhya Aarti.
+      Panchamukhi Hanuman Archana is offered throughout the day.
+    </p>
+  </div>
+</div>

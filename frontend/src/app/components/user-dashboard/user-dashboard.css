@@ -1,0 +1,343 @@
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.dashboard-header {
+  padding: 30px;
+  margin-bottom: 30px;
+  border-left: 5px solid var(--primary);
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar-large {
+  font-size: 3.5rem;
+}
+
+.user-greeting h2 {
+  font-family: 'Cinzel', serif;
+  color: var(--primary-dark);
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.user-greeting p {
+  color: var(--text-light);
+  margin-top: 5px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.tab-sidebar {
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tab-nav-btn {
+  background: none;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: var(--text-dark);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition);
+}
+
+.tab-nav-btn:hover {
+  background-color: rgba(230, 81, 0, 0.05);
+  color: var(--primary);
+}
+
+.tab-nav-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+.tab-content {
+  padding: 35px 30px;
+  min-height: 400px;
+}
+
+.tab-pane h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--primary-dark);
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+}
+
+.section-desc {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+.success-banner {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  border-left: 4px solid #4CAF50;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+}
+
+.error-banner {
+  background-color: #FFEBEE;
+  color: #C62828;
+  border-left: 4px solid #F44336;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+}
+
+.input-tip {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 5px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.empty-state p {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+}
+
+/* Data Table */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.data-table th {
+  font-family: 'Cinzel', serif;
+  color: var(--primary-dark);
+  font-weight: 700;
+  background-color: var(--bg-cream);
+}
+
+.data-table td {
+  font-size: 0.9rem;
+}
+
+/* Badges */
+.badge {
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.badge-pending {
+  background-color: #FFF3E0;
+  color: #E65100;
+}
+
+.badge-approved {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+}
+
+.badge-rejected {
+  background-color: #FFEBEE;
+  color: #C62828;
+}
+
+/* Receipt Modal */
+.receipt-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.receipt-modal {
+  width: 100%;
+  max-width: 500px;
+  background-color: #FFF;
+  padding: 40px;
+  position: relative;
+  border-top: 6px solid var(--accent);
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--text-light);
+}
+
+.receipt-print-area {
+  background-color: #FAFAFA;
+  padding: 25px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  margin-bottom: 25px;
+}
+
+.receipt-header {
+  text-align: center;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.temple-symbol {
+  font-size: 2.2rem;
+  color: var(--primary);
+}
+
+.receipt-header h2 {
+  font-family: 'Cinzel', serif;
+  color: var(--primary-dark);
+  font-size: 1.4rem;
+  margin-top: 5px;
+}
+
+.receipt-header p {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.receipt-header h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-dark);
+  margin-top: 15px;
+  letter-spacing: 1px;
+}
+
+.receipt-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.receipt-row .lbl {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.receipt-row .val {
+  color: var(--text-dark);
+  font-weight: 600;
+  text-align: right;
+}
+
+.total-row {
+  border-top: 1px dashed #E0E0E0;
+  padding-top: 12px;
+  margin-top: 8px;
+}
+
+.total-row .val {
+  font-size: 1.15rem;
+  color: var(--primary);
+}
+
+.receipt-footer {
+  text-align: center;
+  margin-top: 25px;
+  border-top: 1px solid #E0E0E0;
+  padding-top: 15px;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.receipt-footer .sign {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  margin-top: 15px;
+  font-size: 0.75rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Print CSS override */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .receipt-modal-overlay,
+  .receipt-modal-overlay * {
+    visibility: visible;
+  }
+  .receipt-modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .close-modal-btn,
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,556 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="temple-icon">🪔</span>
+      <h3>Temple Admin</h3>
+    </div>
+    <nav class="sidebar-menu">
+      <button [class.active]="activeTab() === 'stats'" (click)="setTab('stats')">📊 Overview Stats</button>
+      <button [class.active]="activeTab() === 'bookings'" (click)="setTab('bookings')">🙏 Puja Bookings</button>
+      <button [class.active]="activeTab() === 'donations'" (click)="setTab('donations')">🪙 Donation Records</button>
+      <button [class.active]="activeTab() === 'pujas'" (click)="setTab('pujas')">🕉️ Puja Management</button>
+      <button [class.active]="activeTab() === 'users'" (click)="setTab('users')">👥 User Management</button>
+      <button [class.active]="activeTab() === 'announcements'" (click)="setTab('announcements')">📢 Announcements</button>
+      <button [class.active]="activeTab() === 'gallery'" (click)="setTab('gallery')">📸 Gallery Manager</button>
+      <button [class.active]="activeTab() === 'events'" (click)="setTab('events')">📅 Event Manager</button>
+      <button [class.active]="activeTab() === 'contacts'" (click)="setTab('contacts')">✉️ Inquiries</button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-secondary logout-btn" (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <header class="content-header">
+      <h2>{{ activeTab() | titlecase }} Control Panel</h2>
+      <div class="admin-profile">
+        <span>Logged in as: <strong>{{ authService.currentUser()?.name || 'Admin' }}</strong></span>
+      </div>
+    </header>
+
+    <!-- Feedback Banners -->
+    @if (successMessage()) {
+      <div class="banner success-banner">✅ {{ successMessage() }}</div>
+    }
+    @if (errorMessage()) {
+      <div class="banner error-banner">⚠️ {{ errorMessage() }}</div>
+    }
+
+    <!-- Tab 1: Stats & Analytics Overview -->
+    @if (activeTab() === 'stats') {
+      <div class="tab-panel stats-panel">
+        <!-- Stat Cards Grid -->
+        <div class="grid grid-3 stats-grid">
+          <div class="card stat-card gold-card">
+            <h3>Total Donations</h3>
+            <p class="stat-number">₹{{ stats().cards.totalDonations | number }}</p>
+            <span class="stat-meta">Accumulated devotion fund</span>
+          </div>
+          <div class="card stat-card saffron-card">
+            <h3>Today's Donations</h3>
+            <p class="stat-number">₹{{ stats().cards.todayDonations | number }}</p>
+            <span class="stat-meta">Received today</span>
+          </div>
+          <div class="card stat-card">
+            <h3>Puja Bookings</h3>
+            <p class="stat-number">{{ stats().cards.totalBookings }}</p>
+            <span class="stat-meta">Total service bookings</span>
+          </div>
+          <div class="card stat-card">
+            <h3>Registered Devotees</h3>
+            <p class="stat-number">{{ stats().cards.totalUsers }}</p>
+            <span class="stat-meta">Active user profiles</span>
+          </div>
+          <div class="card stat-card">
+            <h3>Active Events</h3>
+            <p class="stat-number">{{ stats().cards.totalEvents }}</p>
+            <span class="stat-meta">Celebrations listed</span>
+          </div>
+          <div class="card stat-card">
+            <h3>Visitor Inquiries</h3>
+            <p class="stat-number">{{ stats().cards.totalContacts }}</p>
+            <span class="stat-meta">Contact submissions</span>
+          </div>
+        </div>
+
+        <!-- Analytical Charts representation -->
+        <div class="analytics-section grid grid-2">
+          <div class="card chart-card">
+            <h3>Monthly Donations Trend (INR)</h3>
+            <div class="custom-chart-bar-container">
+              @if (stats().monthlyDonations.length === 0) {
+                <p class="no-data">No donation data recorded in recent months.</p>
+              } @else {
+                <div class="bars-wrapper">
+                  @for (month of stats().monthlyDonations; track month.label) {
+                    <div class="bar-col">
+                      <div class="bar-fill" [style.height.%]="(month.amount / (stats().cards.totalDonations || 1)) * 100 + 10">
+                        <span class="bar-value">₹{{ month.amount | number }}</span>
+                      </div>
+                      <span class="bar-label">{{ month.label }}</span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="card chart-card">
+            <h3>Puja Bookings Breakdown</h3>
+            <div class="booking-breakdown-list">
+              @if (bookings().length === 0) {
+                <p class="no-data">No bookings registered yet.</p>
+              } @else {
+                @for (stat of stats().bookingStats; track stat._id) {
+                  <div class="booking-stat-row">
+                    <span class="status-indicator" [class]="stat._id | lowercase">{{ stat._id }}</span>
+                    <span class="booking-stat-count"><strong>{{ stat.count }}</strong> bookings</span>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 2: Bookings Management -->
+    @if (activeTab() === 'bookings') {
+      <div class="tab-panel bookings-panel card">
+        <div class="table-actions">
+          <div class="filter-group">
+            <label>Filter by Status: </label>
+            <select class="form-control inline-select" [(ngModel)]="bookingFilter" (ngModelChange)="loadAllData()">
+              <option value="All">All Bookings</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date Requested</th>
+                <th>Devotee Name</th>
+                <th>Mobile Number</th>
+                <th>Pooja Type</th>
+                <th>Booking Date</th>
+                <th>Time Preferred</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (booking of getFilteredBookings(); track booking._id) {
+                <tr>
+                  <td>{{ booking.createdAt | date: 'dd-MMM-yyyy' }}</td>
+                  <td>
+                    <strong>{{ booking.name }}</strong>
+                    @if (booking.gotra || booking.sankalpName || booking.address) {
+                      <div class="sub-info">
+                        Gotra: {{ booking.gotra || 'N/A' }} | Sankalp: {{ booking.sankalpName || 'N/A' }}
+                        @if (booking.address) { <div>Add: {{ booking.address }}</div> }
+                      </div>
+                    }
+                  </td>
+                  <td>{{ booking.mobile }}</td>
+                  <td><span class="pooja-tag">{{ booking.poojaType }}</span></td>
+                  <td>{{ booking.bookingDate | date: 'dd-MMM-yyyy' }}</td>
+                  <td>{{ booking.preferredTime }}</td>
+                  <td>
+                    <span class="badge" [class.badge-pending]="booking.paymentStatus === 'Pending'" [class.badge-approved]="booking.paymentStatus === 'Paid'">
+                      {{ booking.paymentStatus }}
+                    </span>
+                    @if (booking.paymentStatus === 'Pending') {
+                      <button class="btn btn-secondary btn-sm" style="margin-top: 5px; padding: 2px 6px; font-size: 0.7rem; display: block;" (click)="updateBookingPaymentStatus(booking._id, 'Paid')">Mark Paid</button>
+                    }
+                  </td>
+                  <td><span class="status-indicator" [class]="booking.status | lowercase">{{ booking.status }}</span></td>
+                  <td>
+                    @if (booking.status === 'Pending') {
+                      <div class="btn-group">
+                        <button class="btn btn-primary btn-sm btn-icon-only" (click)="updateBookingStatus(booking._id, 'Approved')" title="Approve">✓</button>
+                        <button class="btn btn-secondary btn-sm btn-icon-only" (click)="updateBookingStatus(booking._id, 'Rejected')" title="Reject">✗</button>
+                      </div>
+                    } @else {
+                      <span class="action-done">No action needed</span>
+                    }
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="9" class="text-center">No puja bookings match this filter.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 3: Donations Management -->
+    @if (activeTab() === 'donations') {
+      <div class="tab-panel donations-panel card">
+        <div class="table-actions">
+          <input 
+            type="text" 
+            class="form-control search-input" 
+            placeholder="🔍 Search by name, purpose, or Txn ID..." 
+            [(ngModel)]="donationSearch">
+          
+          <button class="btn btn-accent" (click)="exportDonationsCSV()">
+            📥 Export to CSV / Excel
+          </button>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date Received</th>
+                <th>Donor Name</th>
+                <th>Amount</th>
+                <th>Phone</th>
+                <th>Purpose</th>
+                <th>Method</th>
+                <th>Transaction ID</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (donation of getFilteredDonations(); track donation._id) {
+                <tr>
+                  <td>{{ donation.date | date: 'dd-MMM-yyyy hh:mm a' }}</td>
+                  <td>
+                    <strong>{{ donation.donorName }}</strong>
+                    @if (donation.email) { <div class="sub-info">{{ donation.email }}</div> }
+                  </td>
+                  <td class="amount-cell">₹{{ donation.amount | number }}</td>
+                  <td>{{ donation.phone || 'N/A' }}</td>
+                  <td>{{ donation.purpose }}</td>
+                  <td>{{ donation.paymentMethod }}</td>
+                  <td><code>{{ donation.transactionId }}</code></td>
+                  <td><span class="status-indicator success">{{ donation.status || 'Success' }}</span></td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center">No donations match your search criteria.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 4: Puja Offerings Management -->
+    @if (activeTab() === 'pujas') {
+      <div class="tab-panel pujas-panel grid grid-2">
+        <div class="card form-card">
+          <h3>🕉️ {{ editingPujaId() ? 'Update' : 'Add' }} Puja Offering</h3>
+          <form (ngSubmit)="addOrUpdatePuja()">
+            <div class="form-group">
+              <label for="pujaTitle">Puja Name *</label>
+              <input type="text" id="pujaTitle" name="pujaTitle" class="form-control" [(ngModel)]="pujaTitle" required placeholder="e.g. Sundarkand Path">
+            </div>
+
+            <div class="form-group">
+              <label for="pujaDesc">Description</label>
+              <textarea id="pujaDesc" name="pujaDesc" class="form-control" [(ngModel)]="pujaDesc" placeholder="Brief explanation of blessings..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="pujaPrice">Price (INR) *</label>
+              <input type="number" id="pujaPrice" name="pujaPrice" class="form-control" [(ngModel)]="pujaPrice" required>
+            </div>
+
+            <div class="form-group">
+              <label for="pujaDuration">Duration</label>
+              <input type="text" id="pujaDuration" name="pujaDuration" class="form-control" [(ngModel)]="pujaDuration" placeholder="e.g. 1.5 hrs">
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary" [disabled]="!pujaTitle || !pujaPrice">
+                {{ editingPujaId() ? 'Update Offering' : 'Add Offering' }}
+              </button>
+              @if (editingPujaId()) {
+                <button type="button" class="btn btn-secondary" (click)="resetPujaForm()">Cancel</button>
+              }
+            </div>
+          </form>
+        </div>
+
+        <div class="card list-card">
+          <h3>Puja Offerings List</h3>
+          <div class="scroll-list">
+            @for (puja of pujas(); track puja._id) {
+              <div class="list-item">
+                <div class="item-details">
+                  <h4>{{ puja.title }}</h4>
+                  <span class="price-duration-badge" style="font-size: 0.8rem; color: var(--primary); font-weight: bold;">₹{{ puja.price }} • {{ puja.duration }}</span>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-secondary btn-sm" (click)="editPuja(puja)">✏️</button>
+                  <button class="btn btn-secondary btn-sm delete-btn" (click)="deletePuja(puja._id)">🗑️</button>
+                </div>
+              </div>
+            } @empty {
+              <p class="no-data">No custom pujas listed. Offerings default to standard list.</p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 5: User Management -->
+    @if (activeTab() === 'users') {
+      <div class="tab-panel users-panel card">
+        <h3>👥 Registered Devotee Accounts</h3>
+        <p class="section-desc">Manage devotee accounts, monitor logins, or toggle suspensions.</p>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Registration Date</th>
+                <th>Full Name</th>
+                <th>Email Address</th>
+                <th>Mobile Number</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users(); track user._id) {
+                <tr>
+                  <td>{{ user.createdAt | date: 'dd-MMM-yyyy' }}</td>
+                  <td><strong>{{ user.name }}</strong></td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.mobile || 'N/A' }}</td>
+                  <td><span class="badge badge-approved" style="font-size: 0.75rem;">{{ user.role }}</span></td>
+                  <td>
+                    <span class="status-indicator" [class.rejected]="user.isSuspended" [class.success]="!user.isSuspended">
+                      {{ user.isSuspended ? 'Suspended' : 'Active' }}
+                    </span>
+                  </td>
+                  <td>
+                    @if (user.role !== 'admin') {
+                      <div class="btn-group">
+                        <button class="btn btn-sm" [class.btn-primary]="user.isSuspended" [class.btn-secondary]="!user.isSuspended" (click)="toggleUserSuspension(user._id)">
+                          {{ user.isSuspended ? 'Unsuspend' : 'Suspend' }}
+                        </button>
+                        <button class="btn btn-secondary btn-sm delete-btn" (click)="deleteUser(user._id)" style="margin-left: 5px;">
+                          Delete
+                        </button>
+                      </div>
+                    } @else {
+                      <span class="action-done">System Owner</span>
+                    }
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="text-center">No devotee records found.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 6: Announcements Manager -->
+    @if (activeTab() === 'announcements') {
+      <div class="tab-panel announcements-panel grid grid-2">
+        <div class="card form-card">
+          <h3>📢 Publish Announcement Alert</h3>
+          <p class="section-desc">Broadcast emergency notices, holiday timings, or upcoming festival alerts directly to the homepage popup.</p>
+          <form (ngSubmit)="publishAnnouncement()">
+            <div class="form-group">
+              <label for="annTitle">Notice Title *</label>
+              <input type="text" id="annTitle" name="annTitle" class="form-control" [(ngModel)]="annTitle" required placeholder="e.g. Temple Timings Change">
+            </div>
+
+            <div class="form-group">
+              <label for="annDesc">Alert Message *</label>
+              <textarea id="annDesc" name="annDesc" class="form-control" [(ngModel)]="annDesc" required placeholder="Write the details here..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="annPriority">Alert Level / Priority</label>
+              <select id="annPriority" name="annPriority" class="form-control" [(ngModel)]="annPriority">
+                <option value="high">🚨 High (Home Modal Popup)</option>
+                <option value="medium">⚠️ Medium (News List)</option>
+                <option value="low">💡 Low (General Info)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!annTitle || !annDesc">Publish Announcement</button>
+          </form>
+        </div>
+
+        <div class="card list-card">
+          <h3>Active Notice List</h3>
+          <div class="scroll-list">
+            @for (ann of announcements(); track ann._id) {
+              <div class="list-item">
+                <div class="item-details">
+                  <h4>{{ ann.title }}</h4>
+                  <span class="badge" [class.badge-rejected]="ann.priority === 'high'" [class.badge-pending]="ann.priority === 'medium'" [class.badge-approved]="ann.priority === 'low'" style="font-size: 0.65rem;">
+                    {{ ann.priority }} priority
+                  </span>
+                </div>
+                <button class="btn btn-secondary btn-sm delete-btn" (click)="deleteAnnouncement(ann._id)">🗑️</button>
+              </div>
+            } @empty {
+              <p class="no-data">No active announcements published.</p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 7: Gallery Manager -->
+    @if (activeTab() === 'gallery') {
+      <div class="tab-panel gallery-panel grid grid-2">
+        <!-- Form to Add Gallery Image -->
+        <div class="card form-card">
+          <h3>📸 Upload New Gallery Media</h3>
+          <form (ngSubmit)="addGalleryItem()">
+            <div class="form-group">
+              <label for="galleryTitle">Media Title</label>
+              <input type="text" id="galleryTitle" name="galleryTitle" class="form-control" [(ngModel)]="galleryTitle" required placeholder="e.g. Aarti Ceremony">
+            </div>
+
+            <div class="form-group">
+              <label for="galleryCategory">Category</label>
+              <select id="galleryCategory" name="galleryCategory" class="form-control" [(ngModel)]="galleryCategory">
+                <option value="Rituals">Rituals</option>
+                <option value="Events">Events</option>
+                <option value="Campus">Campus</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="galleryFile">Select Image File</label>
+              <input type="file" id="galleryFile" class="form-control" (change)="onGalleryFileSelected($event)" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!galleryTitle || !galleryFile">Upload to Gallery</button>
+          </form>
+        </div>
+
+        <!-- Current Gallery Items list -->
+        <div class="card list-card">
+          <h3>Current Media List</h3>
+          <div class="scroll-list">
+            @for (item of galleryItems(); track item._id) {
+              <div class="list-item">
+                <img [src]="item.image" class="thumb" alt="thumbnail">
+                <div class="item-details">
+                  <h4>{{ item.title }}</h4>
+                  <span class="category-badge">{{ item.category }}</span>
+                </div>
+                <button class="btn btn-secondary btn-sm delete-btn" (click)="deleteGalleryItem(item._id)">🗑️</button>
+              </div>
+            } @empty {
+              <p class="no-data">No gallery items uploaded yet.</p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 8: Events Manager -->
+    @if (activeTab() === 'events') {
+      <div class="tab-panel events-panel grid grid-2">
+        <!-- Form to Add Event -->
+        <div class="card form-card">
+          <h3>📅 Add Upcoming Temple Event</h3>
+          <form (ngSubmit)="addEvent()">
+            <div class="form-group">
+              <label for="eventTitle">Event Title</label>
+              <input type="text" id="eventTitle" name="eventTitle" class="form-control" [(ngModel)]="eventTitle" required placeholder="e.g. Sundarkand Path">
+            </div>
+
+            <div class="form-group">
+              <label for="eventDesc">Description</label>
+              <textarea id="eventDesc" name="eventDesc" class="form-control" [(ngModel)]="eventDesc" required placeholder="Describe the celebration..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="eventDate">Date & Time</label>
+              <input type="datetime-local" id="eventDate" name="eventDate" class="form-control" [(ngModel)]="eventDate" required>
+            </div>
+
+            <div class="form-group">
+              <label for="eventFile">Select Banner Image</label>
+              <input type="file" id="eventFile" class="form-control" (change)="onEventFileSelected($event)" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!eventTitle || !eventDesc || !eventDate">Publish Event</button>
+          </form>
+        </div>
+
+        <!-- Current Events list -->
+        <div class="card list-card">
+          <h3>Published Events</h3>
+          <div class="scroll-list">
+            @for (event of events(); track event._id) {
+              <div class="list-item">
+                <div class="item-details">
+                  <h4>{{ event.title }}</h4>
+                  <span class="event-time-badge">{{ event.date | date: 'dd-MMM-yyyy hh:mm a' }}</span>
+                </div>
+                <button class="btn btn-secondary btn-sm delete-btn" (click)="deleteEvent(event._id)">🗑️</button>
+              </div>
+            } @empty {
+              <p class="no-data">No custom events published yet.</p>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab 9: Visitor Inquiries -->
+    @if (activeTab() === 'contacts') {
+      <div class="tab-panel contacts-panel card">
+        <h3>Devotee & Visitor Inquiries</h3>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Date Received</th>
+                <th>Devotee Name</th>
+                <th>Email Address</th>
+                <th>Subject</th>
+                <th>Message Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (contact of contacts(); track contact._id) {
+                <tr>
+                  <td>{{ contact.date | date: 'dd-MMM-yyyy hh:mm a' }}</td>
+                  <td><strong>{{ contact.name }}</strong></td>
+                  <td><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></td>
+                  <td>{{ contact.subject }}</td>
+                  <td class="message-cell">{{ contact.message }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="5" class="text-center">No visitor inquiries recorded yet.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  </main>
+</div>

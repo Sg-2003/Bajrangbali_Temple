@@ -1,0 +1,57 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>Temple Gallery</h1>
+    <p>A visual journey through the holy rituals, festivals, and campus of Hanuman Mandir</p>
+  </div>
+</section>
+
+<section class="gallery-content section">
+  <!-- Filter Controls -->
+  <div class="filter-bar reveal">
+    @for (cat of categories; track cat) {
+      <button 
+        class="btn btn-filter" 
+        [class.active]="selectedCategory() === cat"
+        (click)="setCategory(cat)">
+        {{ cat }}
+      </button>
+    }
+  </div>
+
+  <!-- Image Grid -->
+  <div class="grid grid-3 gallery-grid">
+    @for (image of filteredImages(); track image.id) {
+      <div class="gallery-item card reveal" (click)="openLightbox(image)">
+        <div class="gallery-image-wrapper">
+          <img [src]="image.url" [alt]="image.title" class="gallery-img">
+          <div class="gallery-overlay">
+            <span class="zoom-icon">🔍</span>
+            <h3>{{ image.title }}</h3>
+            <span class="category-tag">{{ image.category }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Lightbox Modal -->
+@if (isLightboxOpen()) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <button class="lightbox-close" (click)="closeLightbox()">&times;</button>
+    
+    <button class="lightbox-nav prev" (click)="prevImage(); $event.stopPropagation()">&lsaquo;</button>
+    
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <img [src]="activeImage()?.url" [alt]="activeImage()?.title" class="lightbox-img">
+      <div class="lightbox-caption">
+        <h3>{{ activeImage()?.title }}</h3>
+        <p>{{ activeImage()?.desc }}</p>
+        <span class="lightbox-counter">{{ activeImage()?.category }}</span>
+      </div>
+    </div>
+
+    <button class="lightbox-nav next" (click)="nextImage(); $event.stopPropagation()">&rsaquo;</button>
+  </div>
+}

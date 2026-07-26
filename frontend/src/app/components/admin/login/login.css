@@ -1,0 +1,74 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 40px 30px;
+  border-top: 5px solid var(--primary);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.temple-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.login-header h2 {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+}
+
+.login-header p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 5px;
+}
+
+.error-banner {
+  background-color: #FFEBEE;
+  color: #C62828;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  border-left: 4px solid #D32F2F;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.info-note {
+  margin-top: 25px;
+  padding: 15px;
+  background-color: #E8F5E9;
+  border-radius: 6px;
+  border-left: 4px solid #2E7D32;
+  font-size: 0.85rem;
+  color: #1B5E20;
+  text-align: center;
+}
+
+.info-note p {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.info-note code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}

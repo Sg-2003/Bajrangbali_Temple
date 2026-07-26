@@ -1,0 +1,213 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>श्री हनुमान चालीसा</h1>
+    <p>Read, listen, and download the sacred hymns dedicated to Lord Hanuman</p>
+  </div>
+</section>
+
+<div class="chalisa-container section reveal">
+
+  <!-- Audio Player Panel -->
+  <div class="audio-panel card" [class.is-playing-active]="isPlaying()">
+
+    <div class="audio-info">
+      <button class="main-play-btn" (click)="togglePlay()" [title]="isPlaying() ? 'Pause Chanting' : 'Play Chanting'">
+        @if (isPlaying()) {
+          <span>⏸️</span>
+        } @else {
+          <span>▶️</span>
+        }
+      </button>
+      <div class="audio-details">
+        <h3>Hanuman Chalisa Chanting 🪔</h3>
+        <p>Sacred recitation with authentic traditional melody</p>
+      </div>
+    </div>
+
+    <!-- Scrubber and Time -->
+    <div class="audio-controls-wrap">
+      <div class="scrubber-container">
+        <span class="time-display">{{ formatTime(currentTime()) }}</span>
+        <input 
+          type="range" 
+          class="audio-scrubber" 
+          [min]="0" 
+          [max]="duration() || 100" 
+          [value]="currentTime()" 
+          (input)="seekAudio($event)">
+        <span class="time-display">{{ formatTime(duration()) }}</span>
+      </div>
+
+      <div class="audio-actions">
+        <!-- Volume controls -->
+        <div class="volume-box">
+          <button class="btn-icon" (click)="toggleMute()">
+            @if (isMuted() || volume() === 0) {
+              <span>🔇</span>
+            } @else {
+              <span>🔊</span>
+            }
+          </button>
+          <input 
+            type="range" 
+            class="volume-slider" 
+            min="0" 
+            max="1" 
+            step="0.05" 
+            [value]="isMuted() ? 0 : volume()" 
+            (input)="onVolumeChange($event)">
+        </div>
+
+        <!-- Speed selector -->
+        <div class="speed-box">
+          <span class="speed-label">Speed:</span>
+          <button 
+            class="speed-btn" 
+            [class.active]="playbackSpeed() === 0.85" 
+            (click)="setSpeed(0.85)">0.85x</button>
+          <button 
+            class="speed-btn" 
+            [class.active]="playbackSpeed() === 1" 
+            (click)="setSpeed(1)">1x</button>
+          <button 
+            class="speed-btn" 
+            [class.active]="playbackSpeed() === 1.25" 
+            (click)="setSpeed(1.25)">1.25x</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reader Controls -->
+  <div class="reader-controls">
+    <div class="button-group">
+      <button 
+        class="btn" 
+        [class.btn-primary]="selectedView() === 'devanagari'" 
+        [class.btn-secondary]="selectedView() !== 'devanagari'"
+        (click)="changeView('devanagari')">
+        हिन्दी (Devanagari)
+      </button>
+      <button 
+        class="btn" 
+        [class.btn-primary]="selectedView() === 'english'" 
+        [class.btn-secondary]="selectedView() !== 'english'"
+        (click)="changeView('english')">
+        English Transliteration
+      </button>
+      <button 
+        class="btn" 
+        [class.btn-primary]="selectedView() === 'both'" 
+        [class.btn-secondary]="selectedView() !== 'both'"
+        (click)="changeView('both')">
+        Show Both
+      </button>
+    </div>
+    <button class="btn btn-accent download-btn" (click)="downloadPDF()">
+      🖨️ Print / Save PDF
+    </button>
+  </div>
+
+  <!-- Chalisa Text Content -->
+  <div class="chalisa-text-box print-section">
+    <!-- Doha Section -->
+    <div class="text-section doha-section">
+      <h3 class="section-subtitle">॥ दोहा ॥</h3>
+      @for (doha of dohas; track doha.id) {
+        <div class="verse-card" [class.speaking]="playingVerseKey() === doha.id">
+          <button 
+            class="verse-sound-btn" 
+            [class.active]="playingVerseKey() === doha.id"
+            (click)="speakVerse(doha.hindi, doha.id)"
+            [title]="playingVerseKey() === doha.id ? 'Stop audio' : 'Listen to this verse'">
+            @if (playingVerseKey() === doha.id) {
+              <span>🛑 Stop</span>
+            } @else {
+              <span>🔊 Listen</span>
+            }
+          </button>
+
+          @if (selectedView() === 'devanagari' || selectedView() === 'both') {
+            <p class="verse-hindi devanagari">{{ doha.hindi }}</p>
+          }
+          @if (selectedView() === 'english' || selectedView() === 'both') {
+            <p class="verse-english">{{ doha.english }}</p>
+          }
+          <p class="verse-meaning"><strong>Meaning:</strong> {{ doha.meaning }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- Chaupai Section -->
+    <div class="text-section chaupai-section">
+      <h3 class="section-subtitle">॥ चौपाई ॥</h3>
+      @for (chaupai of chaupais; track chaupai.id) {
+        <div class="verse-card" [class.speaking]="playingVerseKey() === chaupai.id">
+          <span class="verse-number">Verse {{ chaupai.num }}</span>
+          <button 
+            class="verse-sound-btn" 
+            [class.active]="playingVerseKey() === chaupai.id"
+            (click)="speakVerse(chaupai.hindi, chaupai.id)"
+            [title]="playingVerseKey() === chaupai.id ? 'Stop audio' : 'Listen to verse ' + chaupai.num">
+            @if (playingVerseKey() === chaupai.id) {
+              <span>🛑 Stop</span>
+            } @else {
+              <span>🔊 Listen</span>
+            }
+          </button>
+
+          @if (selectedView() === 'devanagari' || selectedView() === 'both') {
+            <p class="verse-hindi devanagari">{{ chaupai.hindi }}</p>
+          }
+          @if (selectedView() === 'english' || selectedView() === 'both') {
+            <p class="verse-english">{{ chaupai.english }}</p>
+          }
+          <p class="verse-meaning"><strong>Meaning:</strong> {{ chaupai.meaning }}</p>
+        </div>
+      }
+    </div>
+
+    <div class="text-section doha-section">
+      <h3 class="section-subtitle">॥ इति दोहा ॥</h3>
+      <div class="verse-card" [class.speaking]="playingVerseKey() === 'final-doha'">
+        <button 
+          class="verse-sound-btn" 
+          [class.active]="playingVerseKey() === 'final-doha'"
+          (click)="speakVerse('पवनतनय संकट हरन, मंगल मूरति रूप। राम लखन सीता सहित, हृदय बसहु सुर भूप॥', 'final-doha')"
+          [title]="playingVerseKey() === 'final-doha' ? 'Stop audio' : 'Listen to closing doha'">
+          @if (playingVerseKey() === 'final-doha') {
+            <span>🛑 Stop</span>
+          } @else {
+            <span>🔊 Listen</span>
+          }
+        </button>
+
+        @if (selectedView() === 'devanagari' || selectedView() === 'both') {
+          <p class="verse-hindi devanagari">
+            पवनतनय संकट हरन, मंगल मूरति रूप।<br>
+            राम लखन सीता सहित, हृदय बसहु सुर भूप॥
+          </p>
+        }
+        @if (selectedView() === 'english' || selectedView() === 'both') {
+          <p class="verse-english">
+            Pavan Tanay Sankat Haran, Mangal Moorti Roop.<br>
+            Ram Lakhan Sita Sahit, Hriday Basahu Sur Bhoop.
+          </p>
+        }
+        <p class="verse-meaning">
+          <strong>Meaning:</strong> O Son of the Wind-God, destroyer of all troubles, and embodiment of auspiciousness! 
+          Reside in my heart along with Lord Rama, Lakshmana, and Mother Sita, O King of Gods.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phala Shruti Quote -->
+  <div class="quote-box card">
+    <p>
+      "जो सत बार पाठ कर कोई। छूटहि बन्दि महा सुख होई॥"<br>
+      <em>"He who recites this Hanuman Chalisa a hundred times will be freed from all bonds and will attain great joy."</em>
+    </p>
+  </div>
+</div>

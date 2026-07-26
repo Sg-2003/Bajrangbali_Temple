@@ -1,0 +1,89 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>श्री सुन्दरकाण्ड पाठ</h1>
+    <p>Read, listen, and watch the divine recitation of Sundarkand with temple devotees</p>
+  </div>
+</section>
+
+<div class="sundarkand-wrapper section reveal">
+  <div class="sundarkand-container">
+
+    <!-- Controls Panel -->
+    <div class="controls-panel card">
+      <div class="control-group">
+        <label>Text Size:</label>
+        <button class="btn btn-sm" (click)="changeFontSize(-2)">A-</button>
+        <span class="size-indicator">{{ fontSize() }}px</span>
+        <button class="btn btn-sm" (click)="changeFontSize(2)">A+</button>
+      </div>
+
+      <div class="control-group">
+        <button class="btn btn-sm" (click)="toggleLanguage()">
+          {{ isHindi() ? 'Read in English' : 'हिंदी में पढ़े' }}
+        </button>
+        <button class="btn btn-sm btn-accent" (click)="bookmarkVerse()">
+          🔖 Bookmark Progress
+        </button>
+      </div>
+
+      <div class="control-group audio-player">
+        <button class="audio-btn" (click)="toggleAudio()">
+          {{ isAudioPlaying() ? '⏸️ Pause Recital' : '▶️ Play Audio Recital' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Verse Reader Card -->
+    <div class="verse-card card">
+      <div class="verse-header">
+        <span>Verse {{ currentVerseIndex() + 1 }} of {{ verses.length }}</span>
+      </div>
+
+      <div class="verse-content" [style.fontSize.px]="fontSize()">
+        @if (isHindi()) {
+          <p class="hindi-text">{{ verses[currentVerseIndex()].hindi }}</p>
+        } @else {
+          <p class="english-text">{{ verses[currentVerseIndex()].english }}</p>
+        }
+      </div>
+
+      <div class="verse-translation">
+        <strong>English Meaning:</strong>
+        <p>{{ verses[currentVerseIndex()].meaning }}</p>
+      </div>
+
+      <!-- Navigation inside Card -->
+      <div class="card-navigation">
+        <button class="btn btn-secondary" (click)="prevVerse()" [disabled]="currentVerseIndex() === 0">
+          ◀ Prev Verse
+        </button>
+        <button class="btn btn-secondary" (click)="nextVerse()" [disabled]="currentVerseIndex() === verses.length - 1">
+          Next Verse ▶
+        </button>
+      </div>
+    </div>
+
+    <!-- YouTube Video Recital Section -->
+    <div class="video-section card">
+      <div class="video-section-header">
+        <h3>🎥 श्री सुन्दरकाण्ड पाठ — Video Recital & Darshan</h3>
+        <p>Watch full 8K video recitation and chant along with temple priests</p>
+      </div>
+      <div class="video-container">
+        <iframe 
+          [src]="safeVideoUrl()" 
+          title="Sundarkand Path Devotional Video Broadcast" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-caption">
+        <span class="video-badge">▶️ Temple Devotional Broadcast</span>
+        <p>Recite along every Saturday evening during the temple's weekly Sundarkand Mahotsav.</p>
+      </div>
+    </div>
+
+  </div>
+</div>

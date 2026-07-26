@@ -1,0 +1,135 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>Shree Bajrangbali Pooja & Seva Bookings</h1>
+    <p>Perform sacred rituals, Havan & Chola Arpan in your Name & Gotra by Temple Priests</p>
+  </div>
+</section>
+
+<section class="services-content section">
+  <div class="section-title reveal">
+    <h2>Sacred Lord Hanuman Pooja Offerings</h2>
+    <p>Select a holy ritual to be performed with Vedic Sankalp for health, protection & prosperity</p>
+  </div>
+
+  <div class="grid grid-3 services-grid">
+    @for (pooja of poojaServices(); track pooja.title) {
+      <div class="card service-card reveal" [class.popular-card]="pooja.tag === 'MOST SACRED'">
+        @if (pooja.tag) {
+          <div class="popular-tag">{{ pooja.tag }}</div>
+        }
+        <div class="service-icon-badge">{{ pooja.icon || '🚩' }}</div>
+        <h3>{{ pooja.title }}</h3>
+        <div class="service-meta">
+          <span class="price">₹{{ pooja.price }}</span>
+          <span class="duration">⏱ {{ pooja.duration }}</span>
+        </div>
+        <p class="desc">{{ pooja.description }}</p>
+        <button class="btn btn-primary" (click)="openBookingModal(pooja.title)">Book Hanuman Puja</button>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Modal Booking Form -->
+@if (isModalOpen()) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content card" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeModal()">&times;</button>
+      
+      <div class="modal-header">
+        <h3>Book {{ selectedPooja() }}</h3>
+        <p>Fill out the form below to register your pooja. Our Pujari will perform the rituals as per Vedic traditions.</p>
+      </div>
+
+      <form (submit)="submitBooking()">
+        @if (successMessage()) {
+          <div class="alert alert-success">
+            {{ successMessage() }}
+          </div>
+        }
+
+        @if (errorMessage()) {
+          <div class="alert alert-danger">
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <div class="grid grid-2 form-grid">
+          <div class="form-group">
+            <label for="name">Devotee Full Name *</label>
+            <input type="text" id="name" name="name" class="form-control" [(ngModel)]="formData.name" required placeholder="e.g. Ramesh Kumar">
+          </div>
+
+          <div class="form-group">
+            <label for="mobile">Mobile Number *</label>
+            <input type="tel" id="mobile" name="mobile" class="form-control" [(ngModel)]="formData.mobile" required placeholder="10-digit mobile number">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" [(ngModel)]="formData.email" placeholder="e.g. name@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="poojaType">Selected Pooja</label>
+            <input type="text" id="poojaType" name="poojaType" class="form-control" [(ngModel)]="formData.poojaType" readonly disabled>
+          </div>
+
+          <div class="form-group">
+            <label for="sankalpName">Sankalp Performed For (Name)</label>
+            <input type="text" id="sankalpName" name="sankalpName" class="form-control" [(ngModel)]="formData.sankalpName" placeholder="e.g. Self, Spouse, Child">
+          </div>
+
+          <div class="form-group">
+            <label for="gotra">Gotra (optional)</label>
+            <input type="text" id="gotra" name="gotra" class="form-control" [(ngModel)]="formData.gotra" placeholder="e.g. Kashyap">
+          </div>
+
+          <div class="form-group">
+            <label for="rashi">Rashi / Moon Sign (optional)</label>
+            <input type="text" id="rashi" name="rashi" class="form-control" [(ngModel)]="formData.rashi" placeholder="e.g. Mesh, Vrish">
+          </div>
+
+          <div class="form-group">
+            <label for="bookingDate">Preferred Date *</label>
+            <input type="date" id="bookingDate" name="bookingDate" class="form-control" [(ngModel)]="formData.bookingDate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="preferredTime">Preferred Time Slot *</label>
+            <select id="preferredTime" name="preferredTime" class="form-control" [(ngModel)]="formData.preferredTime" required>
+              <option value="">Select Time Slot</option>
+              <option value="Morning (07:00 AM - 09:00 AM)">Morning (07:00 AM - 09:00 AM)</option>
+              <option value="Mid-Day (10:00 AM - 12:00 PM)">Mid-Day (10:00 AM - 12:00 PM)</option>
+              <option value="Evening (05:00 PM - 07:00 PM)">Evening (05:00 PM - 07:00 PM)</option>
+              <option value="Night (07:30 PM - 09:00 PM)">Night (07:30 PM - 09:00 PM)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="grid-column: span 2;">
+            <label for="address">Postal Address (for Prasad dispatch)</label>
+            <input type="text" id="address" name="address" class="form-control" [(ngModel)]="formData.address" placeholder="Enter complete postal address">
+          </div>
+
+          <div class="form-group" style="grid-column: span 2;">
+            <label for="specialRequest">Special Requests / Instructions</label>
+            <textarea id="specialRequest" name="specialRequest" class="form-control" [(ngModel)]="formData.specialRequest" placeholder="e.g. WhatsApp video call details, additional offerings..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+              Processing...
+            } @else {
+              Confirm Booking
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+

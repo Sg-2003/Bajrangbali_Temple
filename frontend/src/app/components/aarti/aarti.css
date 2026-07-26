@@ -1,0 +1,252 @@
+.aarti-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Ritual Audio Card */
+.ritual-audio-card {
+  background: linear-gradient(135deg, #FFFDEB 0%, #FFF5E6 100%);
+  border-left: 5px solid var(--primary);
+  border-radius: var(--border-radius, 12px);
+  padding: 25px 30px;
+  margin-bottom: 35px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: var(--transition);
+}
+
+.ritual-audio-card.playing-active {
+  box-shadow: var(--shadow-hover);
+  border-left-color: var(--primary-light);
+}
+
+.ritual-audio-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ritual-icon {
+  font-size: 2.2rem;
+  width: 55px;
+  height: 55px;
+  background: rgba(255, 111, 0, 0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ritual-details h3 {
+  font-size: 1.25rem;
+  color: var(--primary-dark);
+  margin: 0 0 4px 0;
+  font-family: 'Cinzel', serif;
+}
+
+.ritual-details p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.ritual-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.autoplay-badge {
+  background: rgba(230, 81, 0, 0.12);
+  border: 1px solid var(--primary);
+  color: var(--primary-dark);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  animation: pulseBadge 2s infinite ease-in-out;
+}
+
+@keyframes pulseBadge {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.play-ritual-btn {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 25px;
+  box-shadow: 0 4px 14px rgba(230, 81, 0, 0.3);
+}
+
+.mute-btn {
+  background: var(--bg-card);
+  border: 1px solid rgba(230, 81, 0, 0.2);
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-dark);
+  transition: var(--transition);
+}
+
+.mute-btn:hover {
+  background: rgba(230, 81, 0, 0.08);
+}
+
+.ritual-scrubber-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(230, 81, 0, 0.15);
+}
+
+.time-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+  font-family: monospace;
+}
+
+.ritual-scrubber {
+  flex-grow: 1;
+  accent-color: #E65100;
+  height: 6px;
+  cursor: pointer;
+}
+
+.countdown-banner {
+  background: linear-gradient(135deg, #FF6F00, #E65100);
+  border-radius: var(--border-radius);
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(230, 81, 0, 0.25);
+  margin-bottom: 50px;
+}
+
+.countdown-banner.active-aarti {
+  background: linear-gradient(135deg, #800000, #E65100);
+  animation: pulse-active 2s infinite ease-in-out;
+}
+
+@keyframes pulse-active {
+  0% { box-shadow: 0 0 10px rgba(230, 81, 0, 0.4); }
+  50% { box-shadow: 0 0 25px rgba(230, 81, 0, 0.8); }
+  100% { box-shadow: 0 0 10px rgba(230, 81, 0, 0.4); }
+}
+
+.countdown-content {
+  position: relative;
+  z-index: 2;
+}
+
+.countdown-label {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  color: var(--accent-light);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.aarti-name {
+  font-size: 2.2rem;
+  color: white;
+  margin-bottom: 20px;
+  font-family: 'Cinzel', serif;
+}
+
+.timer-display {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px 40px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 15px;
+}
+
+.timer-digits {
+  font-family: 'Montserrat', monospace;
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.timer-desc {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.timings-container {
+  margin-bottom: 40px;
+}
+
+.aarti-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 4px solid var(--primary);
+}
+
+.aarti-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.aarti-icon {
+  font-size: 2rem;
+}
+
+.aarti-meta h3 {
+  font-size: 1.25rem;
+  color: var(--primary-dark);
+}
+
+.aarti-time {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.aarti-desc {
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.special-schedule-box {
+  background-color: var(--bg-card);
+  border-left: 5px solid var(--accent);
+  padding: 30px;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.special-schedule-box h3 {
+  color: var(--primary-dark);
+  margin-bottom: 15px;
+}
+
+.special-schedule-box p {
+  color: var(--text-dark);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .aarti-name { font-size: 1.8rem; }
+  .timer-digits { font-size: 2.2rem; }
+  .timer-display { padding: 10px 25px; }
+}

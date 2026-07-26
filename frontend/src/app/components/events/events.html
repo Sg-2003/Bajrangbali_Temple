@@ -1,0 +1,36 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>Temple Events & Festivals</h1>
+    <p>Join us in celebrating auspicious festivals and regular community prayers</p>
+  </div>
+</section>
+
+<div class="events-container section reveal">
+
+  @if (isLoading()) {
+    <div class="loader-container">
+      <div class="spinner"></div>
+      <p>Loading temple calendar...</p>
+    </div>
+  } @else {
+    <div class="grid grid-3 events-grid">
+      @for (event of events(); track event.title) {
+        <div class="card event-card">
+          <div class="event-banner">
+            <img [src]="event.banner || '/gallery_jayanti.png'" [alt]="event.title" onerror="this.src='/gallery_jayanti.png'">
+            <div class="event-date-tag">
+              <span class="day">{{ event.date | date: 'dd' }}</span>
+              <span class="month">{{ event.date | date: 'MMM' }}</span>
+            </div>
+          </div>
+          <div class="event-info">
+            <h3>{{ event.title }}</h3>
+            <p class="event-time">⏱️ Starts at: {{ event.date | date: 'hh:mm a' }}</p>
+            <p class="event-desc">{{ event.description }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

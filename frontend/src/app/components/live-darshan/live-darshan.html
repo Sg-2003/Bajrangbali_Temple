@@ -1,0 +1,71 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>Live Temple Darshan</h1>
+    <p>Connect with the divine in real-time from anywhere in the world</p>
+  </div>
+</section>
+
+<div class="live-wrapper section reveal">
+  <div class="live-container">
+    <div class="live-header">
+      <div class="header-main">
+        <span class="live-dot"></span>
+        <h2>Current Broadcast</h2>
+      </div>
+      <div class="viewer-count">
+        👥 {{ viewerCount() }} Devotees Tuned In
+      </div>
+    </div>
+
+    <div class="darshan-grid">
+      <!-- Video stream -->
+      <div class="video-pane card">
+        <div class="stream-container">
+          <iframe 
+            [src]="safeVideoUrl()" 
+            title="Live Darshan Mandir" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="darshan-footer">
+          <h3>Daily Aarti Schedule</h3>
+          <p>Mangala Aarti: 06:30 AM | Sandhya Aarti: 07:00 PM | Shringar: 08:30 AM</p>
+        </div>
+      </div>
+
+      <!-- Devotee chat board -->
+      <div class="chat-pane card">
+        <div class="chat-header">
+          <h4>Devotee Chat Board</h4>
+          <span class="chat-subtitle">Chant "Jai Shri Ram" with the community</span>
+        </div>
+
+        <div class="chat-body">
+          @for (msg of chatMessages(); track msg.time + msg.sender) {
+            <div class="chat-msg" [class.user-msg]="msg.isUser">
+              <span class="sender">{{ msg.sender }}</span>
+              <span class="text">{{ msg.text }}</span>
+              <span class="time">{{ msg.time }}</span>
+            </div>
+          }
+        </div>
+
+        <form class="chat-footer-form" (submit)="sendChatMessage(); $event.preventDefault()">
+          <input 
+            type="text" 
+            class="form-control chat-input" 
+            name="chatInput"
+            [(ngModel)]="chatInput" 
+            placeholder="Chant or write a prayer..." 
+            autocomplete="off">
+          <button type="submit" class="btn btn-accent send-btn" aria-label="Send Message">
+            ➤
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

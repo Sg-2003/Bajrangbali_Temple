@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Angular & Build Outputs
+.angular/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Environment Variables & Secrets
+.env
+.env.local
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Files
+Thumbs.db
+.DS_Store

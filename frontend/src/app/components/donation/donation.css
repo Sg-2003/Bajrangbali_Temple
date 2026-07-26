@@ -1,0 +1,331 @@
+.donation-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.donation-card h2 {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+
+.donation-card .subtitle {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+/* Preset Buttons */
+.preset-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.btn-preset {
+  background-color: #FAFAFA;
+  border: 2px solid rgba(230, 81, 0, 0.12);
+  color: var(--primary);
+  font-weight: 700;
+  padding: 10px 0;
+  border-radius: 8px;
+}
+
+.btn-preset:hover {
+  background-color: rgba(230, 81, 0, 0.05);
+  border-color: var(--primary);
+}
+
+.btn-preset.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-white);
+  box-shadow: 0 4px 10px rgba(230, 81, 0, 0.2);
+}
+
+/* Payment Methods */
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #FAFAFA;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+}
+
+.payment-option:hover {
+  background-color: rgba(230, 81, 0, 0.03);
+}
+
+.payment-option input {
+  display: none;
+}
+
+.custom-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(230, 81, 0, 0.3);
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  transition: var(--transition);
+}
+
+.payment-option input:checked + .custom-radio {
+  border-color: var(--primary);
+}
+
+.payment-option input:checked + .custom-radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
+
+.btn-donate {
+  margin-top: 25px;
+}
+
+/* Info Column */
+.info-card {
+  border-top: 4px solid var(--accent);
+}
+
+.info-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  color: var(--primary-dark);
+}
+
+.info-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-icon {
+  font-size: 2.2rem;
+  background-color: #FFFDE7;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-text h4 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.info-text p {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+.tax-info-card {
+  margin-top: 25px;
+  background-color: #FFFDE7;
+  border: 1px solid rgba(255, 179, 0, 0.3);
+}
+
+.tax-info-card h3 {
+  color: var(--primary-dark);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.tax-info-card p {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin-bottom: 15px;
+}
+
+.trust-badge {
+  display: inline-block;
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 15px;
+}
+
+/* Payment Processing Loading card */
+.loading-container {
+  max-width: 450px;
+  text-align: center;
+  padding: 40px;
+  border-top: 5px solid var(--accent);
+}
+
+.payment-spinner {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 25px;
+}
+
+/* Receipt Card */
+.receipt-card {
+  max-width: 450px;
+  background-color: #FFFDF9;
+  border: 2px solid var(--accent);
+  padding: 40px 30px;
+  border-top: 8px solid var(--primary);
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.receipt-symbol {
+  font-size: 2.2rem;
+  color: var(--primary);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.receipt-header h3 {
+  font-size: 1.6rem;
+  color: var(--primary-dark);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.receipt-tagline {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.receipt-stamp {
+  position: absolute;
+  top: 90px;
+  right: 40px;
+  border: 3px double #2E7D32;
+  color: #2E7D32;
+  font-size: 1.4rem;
+  font-weight: 800;
+  padding: 4px 15px;
+  border-radius: 6px;
+  transform: rotate(-15deg);
+  opacity: 0.8;
+  letter-spacing: 2px;
+}
+
+.receipt-body {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  margin-bottom: 30px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.receipt-row span {
+  color: var(--text-light);
+}
+
+.receipt-divider {
+  border: 0;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+  margin: 15px 0;
+}
+
+.total-row {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  background-color: rgba(230, 81, 0, 0.05);
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.total-row .amount {
+  color: var(--primary);
+}
+
+.receipt-footer-text {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.5;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.receipt-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.receipt-actions button {
+  flex: 1;
+}
+
+/* Print Styling */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .receipt-card, .receipt-card * {
+    visibility: visible;
+  }
+  .receipt-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+  }
+  .receipt-actions {
+    display: none;
+  }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .donation-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .preset-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -1,0 +1,209 @@
+<section class="page-header">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>Online Donations & Seva</h1>
+    <p>Contribute to the temple development, bhandara, and community welfare programs</p>
+  </div>
+</section>
+
+<section class="donation-content section">
+  <div class="donation-layout">
+    <!-- Donation Form Column -->
+    <div class="form-container">
+      <div class="card donation-card reveal">
+        <h2>Make a Contribution</h2>
+        <p class="subtitle">Every contribution helps us maintain the sacred temple and serve the community.</p>
+
+        <form (submit)="submitDonation()">
+          @if (errorMessage()) {
+            <div class="alert alert-danger">
+              {{ errorMessage() }}
+            </div>
+          }
+
+          <!-- Amount Presets -->
+          <div class="form-group">
+            <label>Select Donation Amount (₹)</label>
+            <div class="preset-buttons">
+              @for (preset of presets; track preset) {
+                <button type="button" class="btn btn-preset" [class.selected]="amount === preset" (click)="selectPreset(preset)">
+                  ₹{{ preset }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- Custom Amount -->
+          <div class="form-group">
+            <label for="customAmount">Or Enter Custom Amount (₹) *</label>
+            <input type="number" id="customAmount" name="customAmount" class="form-control" [(ngModel)]="amount" required placeholder="Enter amount in ₹">
+          </div>
+
+          <!-- Purpose -->
+          <div class="form-group">
+            <label for="purpose">Purpose of Contribution</label>
+            <select id="purpose" name="purpose" class="form-control" [(ngModel)]="purpose">
+              <option value="General Donation">General Temple Fund</option>
+              <option value="Temple Construction">Temple Construction & Expansion</option>
+              <option value="Annadanam / Bhandara">Annadanam (Free Meals / Bhandara)</option>
+              <option value="Gaushala Seva">Gaushala (Cowshed) Maintenance</option>
+              <option value="Hanuman Jayanti Festival">Hanuman Jayanti Celebrations</option>
+            </select>
+          </div>
+
+          <!-- Donor Details -->
+          <div class="form-group">
+            <label for="donorName">Donor Name (leave blank for Anonymous)</label>
+            <input type="text" id="donorName" name="donorName" class="form-control" [(ngModel)]="donorName" placeholder="e.g. Rajesh Sharma">
+          </div>
+
+          <div class="grid grid-2 form-grid">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" class="form-control" [(ngModel)]="phone" placeholder="10-digit mobile number">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" placeholder="e.g. name@domain.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message / Blessing Request</label>
+            <textarea id="message" name="message" class="form-control" [(ngModel)]="message" placeholder="Write any message or special prayers..."></textarea>
+          </div>
+
+          <!-- Payment Methods -->
+          <div class="form-group">
+            <label>Payment Method *</label>
+            <div class="payment-methods">
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="UPI" [(ngModel)]="paymentMethod">
+                <span class="custom-radio"></span>
+                <span>UPI (GPay / PhonePe / Paytm)</span>
+              </label>
+              
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="Card" [(ngModel)]="paymentMethod">
+                <span class="custom-radio"></span>
+                <span>Credit / Debit Card</span>
+              </label>
+
+              <label class="payment-option">
+                <input type="radio" name="paymentMethod" value="NetBanking" [(ngModel)]="paymentMethod">
+                <span class="custom-radio"></span>
+                <span>Net Banking</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 btn-donate">
+            Confirm and Proceed to Pay ₹{{ amount || 0 }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Info Column -->
+    <div class="info-container">
+      <div class="card info-card reveal">
+        <h3>Where Your Donation Goes</h3>
+        
+        <div class="info-item">
+          <div class="info-icon">🍲</div>
+          <div class="info-text">
+            <h4>Annadanam (Daily Prasad)</h4>
+            <p>We serve fresh hot prasad to visitors and running community kitchens (Bhandara) on auspicious days.</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">🧱</div>
+          <div class="info-text">
+            <h4>Mandir Maintenance</h4>
+            <p>Maintenance of the temple structure, lighting, sanitation, and construction of new community spaces.</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">🐄</div>
+          <div class="info-text">
+            <h4>Gaushala Maintenance</h4>
+            <p>Feeding and caring for cows housed at the temple gaushala, providing clean shelter and medical care.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card tax-info-card reveal">
+        <h3>Tax Exemption & Trust</h3>
+        <p>Bajrangbali Hanuman Mandir is managed by the registered temple trust. All contributions are safely logged and managed under audit oversight.</p>
+        <span class="trust-badge">✓ Verified Temple Trust</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Payment Simulation Loader -->
+@if (isSimulatingPayment()) {
+  <div class="modal-overlay">
+    <div class="loading-container card">
+      <div class="spinner payment-spinner"></div>
+      <h3>Processing Donation...</h3>
+      <p>Please do not refresh the page or click back. Communicating with secured payment gateway.</p>
+    </div>
+  </div>
+}
+
+<!-- Donation Receipt Modal -->
+@if (showReceipt()) {
+  <div class="modal-overlay">
+    <div class="receipt-card card" (click)="$event.stopPropagation()">
+      <div class="receipt-header">
+        <span class="receipt-symbol">ॐ</span>
+        <h3>Donation Receipt</h3>
+        <p class="receipt-tagline">Bajrangbali Hanuman Mandir Trust, Kalikapur</p>
+      </div>
+
+      <div class="receipt-stamp">PAID</div>
+
+      <div class="receipt-body">
+        <div class="receipt-row">
+          <span>Transaction ID:</span>
+          <strong>{{ receiptData()?.transactionId }}</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Date:</span>
+          <strong>{{ receiptData()?.date | date:'dd MMMM yyyy, hh:mm a' }}</strong>
+        </div>
+        <hr class="receipt-divider">
+        <div class="receipt-row">
+          <span>Donor Name:</span>
+          <strong>{{ receiptData()?.donorName }}</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Purpose:</span>
+          <strong>{{ receiptData()?.purpose }}</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Payment Method:</span>
+          <strong>{{ receiptData()?.paymentMethod }}</strong>
+        </div>
+        <hr class="receipt-divider">
+        <div class="receipt-row total-row">
+          <span>Amount Paid:</span>
+          <span class="amount">₹{{ receiptData()?.amount }}</span>
+        </div>
+      </div>
+
+      <p class="receipt-footer-text">
+        Thank you for your generous contribution. May Lord Bajrangbali Hanuman bless you and your family with health, wealth, and prosperity.
+      </p>
+
+      <div class="receipt-actions">
+        <button class="btn btn-secondary" onclick="window.print()">Print Receipt</button>
+        <button class="btn btn-primary" (click)="closeReceipt()">Done</button>
+      </div>
+    </div>
+  </div>
+}

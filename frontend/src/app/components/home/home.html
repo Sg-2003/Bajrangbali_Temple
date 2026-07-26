@@ -1,0 +1,183 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-bg">
+    <!-- Stars / Particles -->
+    <div class="stars"></div>
+    <div class="stars stars-2"></div>
+    <div class="stars stars-3"></div>
+  </div>
+
+  <div class="hero-layout">
+    <!-- 3D Temple (Three.js Canvas) -->
+    <div class="temple-scene">
+      <app-temple-scene></app-temple-scene>
+    </div>
+
+    <!-- Hero Text -->
+    <div class="hero-content">
+      <span class="hero-subtitle">जय श्री राम • जय हनुमान</span>
+      <h1>वीर बजरंगबली<br>हनुमान मंदिर</h1>
+      <p class="hero-location">📍 Vill-Kalikapur, Potka, Jharkhand</p>
+      <p class="hero-text">
+        Seek the eternal blessings of Lord Hanuman, the epitome of infinite strength, absolute devotion, and humility. Visit our holy temple to experience spiritual bliss.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/services" class="btn btn-primary">Book Pooja Services</a>
+        <a routerLink="/donate" class="btn btn-accent">Offer Donation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Daily Shloka -->
+<section class="shloka-section">
+  <div class="shloka-container reveal">
+    <div class="shloka-box">
+      <div class="shloka-flower">✿</div>
+      <p class="shloka-text">{{ currentShloka().text }}</p>
+      <p class="shloka-translation"><strong>Meaning:</strong> {{ currentShloka().translation }}</p>
+      <div class="shloka-flower">✿</div>
+    </div>
+  </div>
+</section>
+
+<!-- Sacred Sound & Chanting Section (Divine Audio) -->
+<section class="sound-section section">
+  <div class="section-title reveal">
+    <h2>🎵 Sacred Sound & Divine Chanting</h2>
+    <p>Listen to Hanuman Chalisa, sacred mantras, and sanctifying temple vibrations</p>
+  </div>
+
+  <div class="sound-container reveal">
+    <!-- Featured Sound Card: Hanuman Chalisa -->
+    <div class="featured-sound-card card" [class.playing-active]="activeSoundId() === 'chalisa' && isPlaying()">
+      <div class="featured-badge">FEATURED SOUND</div>
+      <div class="featured-header">
+        <div class="sound-big-icon">🚩</div>
+        <div class="featured-title">
+          <h3>Shree Hanuman Chalisa (श्री हनुमान चालीसा)</h3>
+          <p>Traditional 40-verse devotional hymn recited by temple priests</p>
+        </div>
+      </div>
+
+      <div class="sound-player-controls">
+        <button 
+          class="sound-play-btn main-sound-btn" 
+          (click)="playSound(soundTracks[0])"
+          [title]="activeSoundId() === 'chalisa' && isPlaying() ? 'Pause Hanuman Chalisa' : 'Play Hanuman Chalisa'">
+          @if (activeSoundId() === 'chalisa' && isPlaying()) {
+            <span>⏸️ Pause Chanting</span>
+          } @else {
+            <span>▶️ Play Hanuman Chalisa</span>
+          }
+        </button>
+
+        <a routerLink="/chalisa" class="btn btn-secondary text-link-btn">
+          📖 Read Full Lyrics & Meanings
+        </a>
+      </div>
+
+      @if (activeSoundId() === 'chalisa') {
+        <div class="live-progress-bar">
+          <span class="sound-time">{{ formatTime(currentTime()) }}</span>
+          <input 
+            type="range" 
+            class="sound-scrubber" 
+            min="0" 
+            [max]="duration() || 100" 
+            [value]="currentTime()" 
+            (input)="seekSound($event)">
+          <span class="sound-time">{{ formatTime(duration()) }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Other Devotional Tracks Grid -->
+    <div class="sound-grid">
+      @for (track of soundTracks.slice(1); track track.id) {
+        <div class="sound-card card" [class.playing-active]="activeSoundId() === track.id && isPlaying()">
+          <div class="sound-card-header">
+            <span class="sound-icon">{{ track.icon }}</span>
+            <div class="sound-info">
+              <h4>{{ track.title }}</h4>
+              <p>{{ track.subtitle }}</p>
+            </div>
+          </div>
+          <button 
+            class="btn btn-sm track-play-btn" 
+            [class.btn-primary]="activeSoundId() !== track.id || !isPlaying()"
+            [class.btn-accent]="activeSoundId() === track.id && isPlaying()"
+            (click)="playSound(track)">
+            @if (activeSoundId() === track.id && isPlaying()) {
+              <span>⏸️ Pause</span>
+            } @else {
+              <span>▶️ Play Sound</span>
+            }
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+
+<!-- Daily Darshan Timings & Special Services -->
+<section class="timings-section section">
+  <div class="section-title reveal">
+    <h2>Daily Darshan & Aarti Timings</h2>
+    <p>Plan your peaceful visit to the temple</p>
+  </div>
+  
+  <div class="grid grid-3 timings-grid">
+    <div class="card timing-card reveal">
+      <div class="timing-icon">🌅</div>
+      <h3>Morning Hours</h3>
+      <p class="time">06:00 AM - 12:30 PM</p>
+      <p class="note">Aarti at 06:30 AM (Mangala Aarti)</p>
+    </div>
+    
+    <div class="card timing-card special reveal">
+      <div class="timing-icon">🪔</div>
+      <h3>Evening Hours</h3>
+      <p class="time">04:00 PM - 09:00 PM</p>
+      <p class="note">Aarti at 07:00 PM (Sandhya Aarti)</p>
+    </div>
+    
+    <div class="card timing-card reveal">
+      <div class="timing-icon">🐒</div>
+      <h3>Special Days</h3>
+      <p class="time">Tuesdays & Saturdays</p>
+      <p class="note">Continuous Darshan & Special Chanting</p>
+    </div>
+  </div>
+</section>
+
+<!-- Announcements & Updates -->
+<section class="announcements-section section">
+  <div class="section-title reveal">
+    <h2>Temple Announcements</h2>
+    <p>Stay updated with our community events and festivals</p>
+  </div>
+
+  <div class="grid grid-3 announcements-grid">
+    @for (announcement of announcements(); track announcement.title) {
+      <div class="card announcement-card reveal">
+        <span class="announcement-date">{{ announcement.date }}</span>
+        <h3>{{ announcement.title }}</h3>
+        <p>{{ announcement.desc }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Devotee Engagement CTA Banner -->
+<section class="cta-banner">
+  <div class="cta-container reveal">
+    <div class="cta-content">
+      <h2>Connect with the Holy Board</h2>
+      <p>Submit your prayers, wishes, or expressions of gratitude on our Devotee Prayer Wall. Let the community join you in praying to Bajrangbali.</p>
+      <a routerLink="/devotees" class="btn btn-accent">Write a Prayer</a>
+    </div>
+  </div>
+</section>
+

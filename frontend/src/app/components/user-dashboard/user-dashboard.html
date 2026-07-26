@@ -1,0 +1,212 @@
+<div class="dashboard-wrapper section reveal">
+  <div class="dashboard-container">
+    <div class="dashboard-header card">
+      <div class="user-greeting">
+        <span class="avatar-large">👤</span>
+        <div>
+          <h2>Jai Shri Ram, {{ authService.currentUser()?.name }}!</h2>
+          <p>Welcome to your Devotee Dashboard portal. View your spiritual history below.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Layout Grid -->
+    <div class="dashboard-grid">
+      <!-- Tabs Navigation Sidebar -->
+      <div class="tab-sidebar card">
+        <button class="tab-nav-btn" [class.active]="activeTab() === 'profile'" (click)="setTab('profile')">
+          👤 Profile details
+        </button>
+        <button class="tab-nav-btn" [class.active]="activeTab() === 'bookings'" (click)="setTab('bookings')">
+          🙏 My Puja Bookings
+        </button>
+        <button class="tab-nav-btn" [class.active]="activeTab() === 'donations'" (click)="setTab('donations')">
+          🪙 My Donation History
+        </button>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div class="tab-content card">
+        <!-- 1. Profile Details -->
+        @if (activeTab() === 'profile') {
+          <div class="tab-pane">
+            <h3>Devotee Profile Details</h3>
+            <p class="section-desc">Keep your details up to date to receive customized gotra sankalps and invitations.</p>
+
+            @if (successMsg()) {
+              <div class="success-banner">✓ {{ successMsg() }}</div>
+            }
+            @if (errorMsg()) {
+              <div class="error-banner">⚠️ {{ errorMsg() }}</div>
+            }
+
+            <form (submit)="updateProfile(); $event.preventDefault()">
+              <div class="form-group">
+                <label for="prof-name">Full Name</label>
+                <input type="text" id="prof-name" class="form-control" name="name" [(ngModel)]="name" required>
+              </div>
+
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" class="form-control" [value]="authService.currentUser()?.email" readonly disabled style="opacity: 0.65; cursor: not-allowed;">
+                <span class="input-tip">Email address is locked to your account.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="prof-mobile">Mobile Phone Number</label>
+                <input type="tel" id="prof-mobile" class="form-control" name="mobile" [(ngModel)]="mobile">
+              </div>
+
+              <button type="submit" class="btn btn-primary" [disabled]="isUpdating()">
+                {{ isUpdating() ? 'Saving changes...' : 'Save Settings' }}
+              </button>
+            </form>
+          </div>
+        }
+
+        <!-- 2. Puja Bookings -->
+        @if (activeTab() === 'bookings') {
+          <div class="tab-pane">
+            <h3>My Puja Bookings</h3>
+            <p class="section-desc">Overview of your registered gotra sankalp puja sessions.</p>
+
+            @if (bookings().length === 0) {
+              <div class="empty-state">
+                <p>🙏 You haven't booked any Pujas yet.</p>
+                <a routerLink="/services" class="btn btn-accent btn-sm">Book a Puja Now</a>
+              </div>
+            } @else {
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Pooja Type</th>
+                      <th>Scheduled Date</th>
+                      <th>Time Slot</th>
+                      <th>Sankalp Name</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (b of bookings(); track b._id) {
+                      <tr>
+                        <td><strong>{{ b.poojaType }}</strong></td>
+                        <td>{{ b.bookingDate | date:'mediumDate' }}</td>
+                        <td>{{ b.preferredTime }}</td>
+                        <td>{{ b.sankalpName || 'Self' }} (Gotra: {{ b.gotra || 'N/A' }})</td>
+                        <td>
+                          <span class="badge" [class.badge-pending]="b.status === 'Pending'" [class.badge-approved]="b.status === 'Approved'" [class.badge-rejected]="b.status === 'Rejected'">
+                            {{ b.status }}
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- 3. Donation History -->
+        @if (activeTab() === 'donations') {
+          <div class="tab-pane">
+            <h3>My Donation History</h3>
+            <p class="section-desc">Track your past contributions and download divine prasad receipts.</p>
+
+            @if (donations().length === 0) {
+              <div class="empty-state">
+                <p>🪙 You haven't made any donations yet.</p>
+                <a routerLink="/donate" class="btn btn-accent btn-sm">Make a Donation</a>
+              </div>
+            } @else {
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Purpose</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Payment Method</th>
+                      <th>Receipt</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (d of donations(); track d._id) {
+                      <tr>
+                        <td><strong>{{ d.purpose }}</strong></td>
+                        <td>₹{{ d.amount }}</td>
+                        <td>{{ d.date | date:'mediumDate' }}</td>
+                        <td>{{ d.paymentMethod }}</td>
+                        <td>
+                          <button class="btn btn-secondary btn-sm" (click)="openReceipt(d)">
+                            📄 View Receipt
+                          </button>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Receipt overlay modal -->
+  @if (selectedReceipt()) {
+    <div class="receipt-modal-overlay" (click)="closeReceipt()">
+      <div class="receipt-modal card" (click)="$event.stopPropagation()">
+        <button class="close-modal-btn" (click)="closeReceipt()">&times;</button>
+        
+        <div class="receipt-print-area">
+          <div class="receipt-header">
+            <span class="temple-symbol">ॐ</span>
+            <h2>श्री हनुमान मंदिर</h2>
+            <p>Vill-Kalikapur, Potka, East Singhbhum, Jharkhand - 832113</p>
+            <h3>DONATION PRASAD RECEIPT</h3>
+          </div>
+
+          <div class="receipt-body">
+            <div class="receipt-row">
+              <span class="lbl">Receipt ID:</span>
+              <span class="val font-mono">{{ selectedReceipt().transactionId }}</span>
+            </div>
+            <div class="receipt-row">
+              <span class="lbl">Date:</span>
+              <span class="val">{{ selectedReceipt().date | date:'medium' }}</span>
+            </div>
+            <div class="receipt-row">
+              <span class="lbl">Donor Name:</span>
+              <span class="val">{{ selectedReceipt().donorName }}</span>
+            </div>
+            <div class="receipt-row">
+              <span class="lbl">Spiritual Purpose:</span>
+              <span class="val">{{ selectedReceipt().purpose }}</span>
+            </div>
+            <div class="receipt-row">
+              <span class="lbl">Payment Method:</span>
+              <span class="val">{{ selectedReceipt().paymentMethod }}</span>
+            </div>
+            <div class="receipt-row total-row">
+              <span class="lbl">Amount Donated:</span>
+              <span class="val">₹{{ selectedReceipt().amount }}</span>
+            </div>
+          </div>
+
+          <div class="receipt-footer">
+            <p>🙏 "May Lord Veer Hanuman bless you with health, strength, and prosperity." 🙏</p>
+            <p class="sign">Authorized Temple Management Committee</p>
+          </div>
+        </div>
+
+        <div class="modal-actions no-print">
+          <button class="btn btn-primary" (click)="printReceipt()">🖨️ Print / Save PDF</button>
+          <button class="btn btn-secondary" (click)="closeReceipt()">Close</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

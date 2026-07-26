@@ -1,0 +1,1094 @@
+/* Import modern typography from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+/* =====================================================
+   LIGHT MODE (DEFAULT) CSS CUSTOM PROPERTIES
+   ===================================================== */
+:root {
+  --primary: #FF6F00;
+  --primary-light: #FF8F00;
+  --primary-dark: #800000;
+  --accent: #FFD54F;
+  --accent-light: #FFE082;
+  --bg-cream: #FDFBF7;
+  --bg-card: #FFFFFF;
+  --text-dark: #263238;
+  --text-light: #78909C;
+  --text-white: #FFFFFF;
+  --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --shadow: 0 4px 20px rgba(230, 81, 0, 0.08);
+  --shadow-hover: 0 12px 30px rgba(230, 81, 0, 0.18);
+  --border-radius: 12px;
+}
+
+/* =====================================================
+   DARK MODE — CSS CUSTOM PROPERTIES OVERRIDE
+   ===================================================== */
+body.dark-mode {
+  --bg-cream: #12100E;
+  --bg-card: #1C1814;
+  --text-dark: #F5E6D3;
+  --text-light: #BCAAA4;
+  --primary: #FF8F00;
+  --primary-light: #FFA726;
+  --primary-dark: #FFB74D;
+  --shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+  --shadow-hover: 0 12px 35px rgba(255, 111, 0, 0.25);
+}
+
+/* =====================================================
+   DARK MODE — GLOBAL BASE ELEMENTS
+   ===================================================== */
+body.dark-mode {
+  background-color: #12100E;
+  color: #F5E6D3;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode span:not([class*="btn"]):not([class*="badge"]) {
+  color: #F5E6D3;
+}
+
+body.dark-mode a:not([class*="btn"]):not([class*="nav"]):not([class*="social"]) {
+  color: #FFB74D;
+}
+
+/* =====================================================
+   DARK MODE — NAVBAR
+   ===================================================== */
+body.dark-mode .navbar {
+  background: rgba(18, 16, 14, 0.97) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 143, 0, 0.2) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .logo-text .hindi {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .logo-text .english {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .nav-links a {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .nav-links a:hover,
+body.dark-mode .nav-links a.active-link {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .nav-links {
+  background-color: #1A1612 !important;
+  border-left: 2px solid rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode .menu-toggle .bar {
+  background-color: #FFD54F !important;
+}
+
+body.dark-mode .toggle-btn {
+  background: rgba(255, 143, 0, 0.1) !important;
+  border-color: rgba(255, 143, 0, 0.25) !important;
+  color: #FFD54F !important;
+}
+
+body.dark-mode .toggle-btn:hover {
+  background: #FF8F00 !important;
+  color: #fff !important;
+}
+
+/* =====================================================
+   DARK MODE — UNIVERSAL CARD / PANEL BACKGROUNDS
+   ===================================================== */
+body.dark-mode .card,
+body.dark-mode .info-card,
+body.dark-mode .service-card,
+body.dark-mode .event-card,
+body.dark-mode .gallery-item,
+body.dark-mode .timing-card,
+body.dark-mode .announcement-card,
+body.dark-mode .sound-card,
+body.dark-mode .featured-sound-card,
+body.dark-mode .verse-card,
+body.dark-mode .aarti-card,
+body.dark-mode .devotee-card,
+body.dark-mode .teaching-card,
+body.dark-mode .about-card,
+body.dark-mode .chalisa-card,
+body.dark-mode .form-card,
+body.dark-mode .hours-card,
+body.dark-mode .map-card,
+body.dark-mode .modal-content,
+body.dark-mode .table-card,
+body.dark-mode .loading-state,
+body.dark-mode .empty-state {
+  background-color: #1C1814 !important;
+  border-color: rgba(255, 143, 0, 0.18) !important;
+  color: #F5E6D3 !important;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .timing-card.special {
+  background: linear-gradient(180deg, #241E15 0%, #1C1814 100%) !important;
+  border-top-color: #FFD54F !important;
+}
+
+/* =====================================================
+   DARK MODE — PAGE SECTION BACKGROUNDS
+   ===================================================== */
+body.dark-mode .section,
+body.dark-mode .page-header,
+body.dark-mode .teachings-section,
+body.dark-mode .sound-section,
+body.dark-mode .timings-section,
+body.dark-mode .announcements-section,
+body.dark-mode .shloka-section {
+  background-color: #12100E !important;
+}
+
+/* =====================================================
+   DARK MODE — SHLOKA / HIGHLIGHT BOXES
+   ===================================================== */
+body.dark-mode .shloka-box,
+body.dark-mode .special-schedule-box,
+body.dark-mode .seva-highlight {
+  background: linear-gradient(135deg, #241E18 0%, #1C1814 100%) !important;
+  border-color: rgba(255, 143, 0, 0.35) !important;
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .shloka-text {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .shloka-translation,
+body.dark-mode .shloka-citation,
+body.dark-mode .highlight-text {
+  color: #F5E6D3 !important;
+}
+
+/* =====================================================
+   DARK MODE — FORMS & INPUTS
+   ===================================================== */
+body.dark-mode .form-control,
+body.dark-mode .chat-input,
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="tel"],
+body.dark-mode input[type="number"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="time"],
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #26211C !important;
+  color: #F5E6D3 !important;
+  border: 1.5px solid rgba(255, 143, 0, 0.3) !important;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .chat-input:focus,
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+  border-color: #FF8F00 !important;
+  box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.25) !important;
+  outline: none;
+  background-color: #2E2720 !important;
+}
+
+body.dark-mode .form-group label {
+  color: #FFB74D !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #7A6F68 !important;
+}
+
+/* =====================================================
+   DARK MODE — BUTTONS (SECONDARY/OUTLINE)
+   ===================================================== */
+body.dark-mode .btn-secondary {
+  background: #26211C !important;
+  color: #FFB74D !important;
+  border-color: #FFB74D !important;
+}
+
+body.dark-mode .btn-secondary:hover {
+  background: #FFB74D !important;
+  color: #1C1814 !important;
+}
+
+body.dark-mode .btn-filter {
+  background-color: #26211C !important;
+  color: #F5E6D3 !important;
+  border-color: rgba(255, 143, 0, 0.3) !important;
+}
+
+body.dark-mode .btn-filter:hover {
+  border-color: #FF8F00 !important;
+  background-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode .speed-btn {
+  background: #26211C !important;
+  border-color: rgba(255, 143, 0, 0.2) !important;
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .mute-btn {
+  background: #26211C !important;
+  border-color: rgba(255, 143, 0, 0.25) !important;
+  color: #F5E6D3 !important;
+}
+
+/* =====================================================
+   DARK MODE — TABLES
+   ===================================================== */
+body.dark-mode table {
+  color: #F5E6D3 !important;
+  background-color: #1C1814 !important;
+}
+
+body.dark-mode th {
+  background-color: #26211C !important;
+  color: #FFD54F !important;
+  border-color: rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode td {
+  color: #F5E6D3 !important;
+  border-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode tr:hover td {
+  background-color: rgba(255, 143, 0, 0.05) !important;
+}
+
+/* =====================================================
+   DARK MODE — HOME PAGE
+   ===================================================== */
+/* Sound Section */
+body.dark-mode .sound-section {
+  background: linear-gradient(180deg, #141210 0%, #181410 100%) !important;
+}
+
+body.dark-mode .featured-sound-card,
+body.dark-mode .sound-card {
+  background-color: #1C1814 !important;
+  border-color: rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode .featured-sound-card.playing-active,
+body.dark-mode .sound-card.playing-active {
+  background: #241E18 !important;
+  border-color: rgba(255, 143, 0, 0.45) !important;
+  box-shadow: 0 8px 30px rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode .featured-title h3,
+body.dark-mode .sound-info h4 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .featured-title p,
+body.dark-mode .sound-info p,
+body.dark-mode .sound-time,
+body.dark-mode .time-label,
+body.dark-mode .time-display {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .sound-big-icon,
+body.dark-mode .ritual-icon {
+  background: rgba(255, 143, 0, 0.18) !important;
+}
+
+body.dark-mode .live-progress-bar,
+body.dark-mode .ritual-scrubber-wrap {
+  border-top-color: rgba(255, 143, 0, 0.2) !important;
+}
+
+/* Timings Section */
+body.dark-mode .timing-card .note {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .timing-card .time {
+  color: #FF8F00 !important;
+}
+
+/* Announcements */
+body.dark-mode .announcement-card {
+  border-left-color: #FFD54F !important;
+}
+
+body.dark-mode .announcement-card h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .announcement-card p {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .announcement-date {
+  color: #FF8F00 !important;
+}
+
+/* =====================================================
+   DARK MODE — AARTI PAGE
+   ===================================================== */
+body.dark-mode .ritual-audio-card {
+  background: linear-gradient(135deg, #241E18 0%, #1C1814 100%) !important;
+  border-left-color: #FF8F00 !important;
+  color: #F5E6D3 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .ritual-audio-card.playing-active {
+  box-shadow: 0 8px 30px rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode .ritual-details h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .ritual-details p {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .aarti-meta h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .aarti-desc {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .special-schedule-box h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .special-schedule-box p {
+  color: #F5E6D3 !important;
+}
+
+/* =====================================================
+   DARK MODE — CHALISA PAGE
+   ===================================================== */
+body.dark-mode .audio-panel {
+  background: linear-gradient(135deg, #241E18 0%, #1C1814 100%) !important;
+  border-left-color: #FF8F00 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .audio-panel.is-playing-active {
+  box-shadow: 0 8px 30px rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode .audio-details h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .audio-details p,
+body.dark-mode .speed-label {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .verse-card {
+  background-color: #1C1814 !important;
+  border-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .verse-card.speaking {
+  border-color: #FF8F00 !important;
+  background-color: #241E18 !important;
+  box-shadow: 0 0 18px rgba(255, 143, 0, 0.2) !important;
+}
+
+body.dark-mode .verse-hindi {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .verse-english {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .verse-meaning {
+  color: #BCAAA4 !important;
+  border-top-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .verse-number {
+  color: #7A6F68 !important;
+}
+
+body.dark-mode .verse-sound-btn {
+  background: rgba(255, 143, 0, 0.15) !important;
+  border-color: rgba(255, 143, 0, 0.3) !important;
+  color: #FFB74D !important;
+}
+
+body.dark-mode .section-subtitle {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .audio-error-msg {
+  background: #3A1515 !important;
+  border-color: #7A2020 !important;
+  color: #FF8A80 !important;
+}
+
+/* =====================================================
+   DARK MODE — ABOUT PAGE
+   ===================================================== */
+body.dark-mode .teachings-section {
+  background: #151210 !important;
+  border-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode .teaching-card h3 {
+  color: #FF8F00 !important;
+}
+
+body.dark-mode .teaching-card p {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .about-text p,
+body.dark-mode .seva-list li {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .lead {
+  color: #FFB74D !important;
+}
+
+body.dark-mode .location-tag {
+  color: #FFB74D !important;
+}
+
+/* =====================================================
+   DARK MODE — EVENTS PAGE
+   ===================================================== */
+body.dark-mode .event-banner {
+  background-color: #26211C !important;
+}
+
+body.dark-mode .event-info h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .event-time {
+  color: #FF8F00 !important;
+}
+
+body.dark-mode .event-desc {
+  color: #F5E6D3 !important;
+}
+
+/* =====================================================
+   DARK MODE — GALLERY PAGE
+   ===================================================== */
+body.dark-mode .btn-filter {
+  background-color: #26211C !important;
+  color: #F5E6D3 !important;
+  border-color: rgba(255, 143, 0, 0.25) !important;
+}
+
+body.dark-mode .btn-filter.active {
+  background: linear-gradient(135deg, #FF8F00, #FF6F00) !important;
+  color: #fff !important;
+}
+
+body.dark-mode .lightbox-caption {
+  background-color: #1C1814 !important;
+  border-color: #1C1814 !important;
+}
+
+body.dark-mode .lightbox-caption h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .lightbox-caption p {
+  color: #F5E6D3 !important;
+}
+
+/* =====================================================
+   DARK MODE — SERVICES PAGE
+   ===================================================== */
+body.dark-mode .service-icon-badge {
+  background: rgba(255, 143, 0, 0.15) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .service-meta .price {
+  background: rgba(255, 143, 0, 0.15) !important;
+  color: #FF8F00 !important;
+}
+
+body.dark-mode .service-card .desc {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+body.dark-mode .modal-content {
+  background: #1C1814 !important;
+  border-top-color: #FF8F00 !important;
+}
+
+body.dark-mode .modal-header {
+  border-bottom-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .modal-header h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .modal-header p {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .modal-footer {
+  border-top-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .modal-close {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .modal-close:hover {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .alert-success {
+  background: #1A2E1A !important;
+  color: #81C784 !important;
+  border-color: #2E7D32 !important;
+}
+
+body.dark-mode .alert-danger {
+  background: #2E1A1A !important;
+  color: #EF9A9A !important;
+  border-color: #7A2020 !important;
+}
+
+/* =====================================================
+   DARK MODE — CONTACT PAGE
+   ===================================================== */
+body.dark-mode .info-block {
+  border-bottom-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode .info-block .info-icon {
+  background: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .info-block p {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .hours-list li span {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .map-footer {
+  background-color: #1C1814 !important;
+  border-top-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode .coordinates {
+  color: #BCAAA4 !important;
+}
+
+/* =====================================================
+   DARK MODE — DEVOTEE BOARD PAGE
+   ===================================================== */
+body.dark-mode .wall-header {
+  border-bottom-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .wall-header h2 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .wall-header p {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .prayer-note {
+  background: linear-gradient(135deg, #2A2415 0%, #221C10 100%) !important;
+  border-color: rgba(255, 213, 79, 0.2) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-mode .prayer-msg {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .prayer-footer {
+  border-top-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .devotee-name {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .prayer-date {
+  color: #BCAAA4 !important;
+}
+
+/* =====================================================
+   DARK MODE — LIVE DARSHAN PAGE
+   ===================================================== */
+body.dark-mode .live-header h2 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .viewer-count {
+  background: rgba(255, 143, 0, 0.15) !important;
+  color: #FF8F00 !important;
+}
+
+body.dark-mode .video-pane {
+  background-color: #1C1814 !important;
+  border-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .darshan-footer {
+  background-color: #1C1814 !important;
+  border-top-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode .darshan-footer h3 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .darshan-footer p {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .chat-pane {
+  background-color: #1C1814 !important;
+  border-top-color: #FFD54F !important;
+}
+
+body.dark-mode .chat-pane .chat-header {
+  background-color: #26211C !important;
+  border-bottom-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+body.dark-mode .chat-pane .chat-header h4 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .chat-msg {
+  background-color: #26211C !important;
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .chat-msg .sender {
+  color: #FF8F00 !important;
+}
+
+body.dark-mode .chat-msg .time {
+  color: #7A6F68 !important;
+}
+
+body.dark-mode .chat-footer-form {
+  background-color: #1C1814 !important;
+  border-top-color: rgba(255, 143, 0, 0.1) !important;
+}
+
+/* =====================================================
+   DARK MODE — CHATBOT ASSISTANT
+   ===================================================== */
+body.dark-mode .chat-window {
+  background-color: #1C1814 !important;
+  border-color: rgba(255, 143, 0, 0.2) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7) !important;
+}
+
+body.dark-mode .chat-messages {
+  background: linear-gradient(180deg, #141210 0%, #1A1714 100%) !important;
+}
+
+body.dark-mode .chat-msg-bubble {
+  background-color: #26211C !important;
+  color: #F5E6D3 !important;
+  border-color: rgba(255, 143, 0, 0.12) !important;
+}
+
+body.dark-mode .chat-footer,
+body.dark-mode .chat-quick-prompts {
+  background-color: #1C1814 !important;
+  border-color: rgba(255, 143, 0, 0.15) !important;
+}
+
+body.dark-mode .btn-quick-prompt {
+  background-color: #26211C !important;
+  color: #FFD54F !important;
+  border-color: rgba(255, 143, 0, 0.3) !important;
+}
+
+/* =====================================================
+   DARK MODE — FOOTER
+   ===================================================== */
+body.dark-mode .footer {
+  background: linear-gradient(135deg, #0E0C0A, #181410) !important;
+  border-top-color: #FF8F00 !important;
+  color: #E0D0C0 !important;
+}
+
+body.dark-mode .footer-col h4 {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .brand-desc,
+body.dark-mode .links-col ul li a,
+body.dark-mode .timings-list li,
+body.dark-mode .contact-col .address,
+body.dark-mode .phone,
+body.dark-mode .email,
+body.dark-mode .footer-logo .logo-text .english {
+  color: #BCAAA4 !important;
+}
+
+body.dark-mode .links-col ul li a:hover {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .timings-list li strong {
+  color: #F5E6D3 !important;
+}
+
+body.dark-mode .footer-logo .logo-text .hindi {
+  color: #FFD54F !important;
+}
+
+body.dark-mode .footer-bottom {
+  border-top-color: rgba(255, 255, 255, 0.06) !important;
+  color: #7A6F68 !important;
+}
+
+body.dark-mode .social-icon {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #BCAAA4 !important;
+}
+
+/* =====================================================
+   DARK MODE — PAGE HEADERS (BANNER STRIPS)
+   ===================================================== */
+body.dark-mode .page-header {
+  background: linear-gradient(135deg, #3D0000, #800000) !important;
+}
+
+/* =====================================================
+   GLOBAL RESET & BASE STYLES
+   ===================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-cream);
+  color: var(--text-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--primary-dark);
+  transition: color 0.35s ease;
+}
+
+.devanagari {
+  font-family: 'Noto Sans Devanagari', sans-serif !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-cream); }
+::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* Reveal Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform, opacity;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section Layout */
+.section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Page Header */
+.page-header {
+  position: relative;
+  height: 250px;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-white);
+  text-align: center;
+  padding: 0 20px;
+}
+
+.header-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1;
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
+  animation: fadeInHeader 0.8s ease-out;
+}
+
+.header-content h1 {
+  font-size: 2.8rem;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.header-content p {
+  font-size: 1.1rem;
+  color: #FFE0B2;
+}
+
+@keyframes fadeInHeader {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .page-header { height: 200px; }
+  .header-content h1 { font-size: 2.2rem; }
+}
+
+/* Section Titles */
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.section-title::after {
+  content: '❖';
+  display: block;
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-top: 10px;
+  animation: pulse-flower 3s infinite ease-in-out;
+}
+
+@keyframes pulse-flower {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: var(--text-white);
+  box-shadow: 0 4px 15px rgba(230, 81, 0, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(230, 81, 0, 0.4);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-secondary:hover {
+  background: var(--primary);
+  color: var(--text-white);
+  transform: translateY(-3px);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--accent), #FFA000);
+  color: var(--text-dark);
+  box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+}
+.btn-accent:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 179, 0, 0.4);
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid rgba(230, 81, 0, 0.05);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Forms */
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 0.9rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid rgba(230, 81, 0, 0.15);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: #FAFAFA;
+  color: var(--text-dark);
+}
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: var(--text-white);
+  box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.1);
+}
+textarea.form-control { min-height: 120px; resize: vertical; }
+
+/* Grids */
+.grid { display: grid; gap: 30px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+/* Shloka Boxes */
+.shloka-box {
+  background: linear-gradient(135deg, #FFF8E1, #FFF3E0);
+  border-left: 5px solid var(--primary);
+  padding: 25px;
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  text-align: center;
+  margin: 20px 0;
+  box-shadow: var(--shadow);
+}
+.shloka-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+.shloka-translation {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section { padding: 50px 15px; }
+  .section-title h2 { font-size: 2rem; }
+}
+
+/* Google Translate Clean Overrides */
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame,
+.goog-te-balloon-frame,
+#goog-gt-tt,
+.goog-te-gadget,
+.goog-te-spinner-pos {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}

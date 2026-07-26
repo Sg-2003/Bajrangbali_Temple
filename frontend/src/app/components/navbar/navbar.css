@@ -1,0 +1,269 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  background: rgba(253, 251, 247, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(230, 81, 0, 0.08);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+  transition: var(--transition);
+}
+
+.nav-container {
+  width: 100%;
+  padding: 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo .symbol {
+  font-size: 2rem;
+  color: var(--primary);
+  text-shadow: 0 0 10px rgba(230, 81, 0, 0.2);
+  animation: pulse 3s infinite ease-in-out;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.logo-text .hindi {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--primary-dark);
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.logo-text .english {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-links a {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: var(--transition);
+  position: relative;
+  padding: 6px 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active-link {
+  color: var(--primary);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent);
+  transition: var(--transition);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active-link::after {
+  width: 100%;
+}
+
+.donate-item a::after {
+  display: none !important;
+}
+
+.nav-links .donate-item a {
+  padding: 8px 20px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6F00, #FF9100) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border-radius: 20px !important;
+  border: none !important;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(255, 111, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  line-height: 1 !important;
+}
+
+.nav-links .donate-item a:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 15px rgba(255, 111, 0, 0.4) !important;
+  background: linear-gradient(135deg, #FF9100, #FF6F00) !important;
+}
+
+.nav-links .donate-item a:active {
+  transform: translateY(0) !important;
+}
+
+.btn-sm {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  border-radius: 20px;
+}
+
+/* Mobile Menu Button */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1010;
+}
+
+.menu-toggle .bar {
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-dark);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* Pulse animation for OM symbol */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive CSS */
+@media (max-width: 992px) {
+  .nav-links {
+    gap: 15px;
+  }
+}
+
+/* Controls Item & Toggle Buttons */
+.controls-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.toggle-btn {
+  background: rgba(230, 81, 0, 0.08);
+  border: 1px solid rgba(230, 81, 0, 0.15);
+  color: var(--primary-dark);
+  font-size: 1.1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.toggle-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(230, 81, 0, 0.2);
+}
+
+.lang-btn {
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.admin-link {
+  font-weight: 600;
+  color: var(--primary-dark) !important;
+}
+
+.logout-nav {
+  color: #C62828 !important;
+}
+
+@media (max-width: 1150px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background-color: var(--bg-card);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 90px;
+    padding-bottom: 30px;
+    gap: 18px;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+    transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-left: 2px solid rgba(230, 81, 0, 0.1);
+    overflow-y: auto;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 1.1rem;
+  }
+
+  /* Hamburger transform when menu is open */
+  .menu-toggle .bar.open:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .menu-toggle .bar.open:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle .bar.open:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+}
+
+@media (max-width: 1300px) and (min-width: 1150px) {
+  .nav-links {
+    gap: 12px;
+  }
+  .nav-links a {
+    font-size: 0.85rem;
+  }
+  .nav-links .donate-item a {
+    padding: 8px 14px !important;
+    font-size: 0.8rem;
+  }
+}

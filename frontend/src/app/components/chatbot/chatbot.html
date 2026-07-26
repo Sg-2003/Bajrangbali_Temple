@@ -1,0 +1,191 @@
+<!-- Floating Monkey Chatbot -->
+<div class="chat-mascot-container" (click)="toggleChat()">
+
+  <!-- Animated SVG Monkey -->
+  <div class="monkey-wrap" [class.thinking]="isTyping()">
+    <svg class="monkey-svg" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <!-- Shadow -->
+      <ellipse class="monkey-shadow" cx="60" cy="135" rx="22" ry="5"/>
+
+      <!-- Tail -->
+      <path class="monkey-tail" d="M75,110 Q105,100 100,80 Q95,65 85,70" 
+            stroke="#C1440E" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+      <!-- Body -->
+      <ellipse class="monkey-body" cx="60" cy="105" rx="22" ry="20" fill="#E65100"/>
+      <!-- Body saffron pattern -->
+      <ellipse cx="60" cy="108" rx="14" ry="13" fill="#FF8F00" opacity="0.4"/>
+
+      <!-- Left ear -->
+      <circle class="ear-left" cx="22" cy="57" r="11" fill="#E65100"/>
+      <circle cx="22" cy="57" r="6" fill="#FF8F00"/>
+
+      <!-- Right ear -->
+      <circle class="ear-right" cx="98" cy="57" r="11" fill="#E65100"/>
+      <circle cx="98" cy="57" r="6" fill="#FF8F00"/>
+
+      <!-- Head -->
+      <ellipse class="monkey-head" cx="60" cy="56" rx="34" ry="32" fill="#E65100"/>
+
+      <!-- Forehead mark (tilak) -->
+      <path d="M57,30 Q60,25 63,30 L61,40 L59,40 Z" fill="#FFD54F"/>
+
+      <!-- Face (muzzle) -->
+      <ellipse cx="60" cy="68" rx="18" ry="14" fill="#FF8F00"/>
+      <ellipse cx="60" cy="68" rx="14" ry="10" fill="#FFD54F"/>
+
+      <!-- Eyes (white sclera) -->
+      <ellipse class="eye-left" cx="48" cy="54" rx="7" ry="7.5" fill="white"/>
+      <ellipse class="eye-right" cx="72" cy="54" rx="7" ry="7.5" fill="white"/>
+
+      <!-- Pupils (animated) -->
+      <circle class="pupil-left" cx="49" cy="55" r="4" fill="#1A1A1A"/>
+      <circle class="pupil-right" cx="73" cy="55" r="4" fill="#1A1A1A"/>
+
+      <!-- Eye shine -->
+      <circle cx="51" cy="52" r="1.5" fill="white"/>
+      <circle cx="75" cy="52" r="1.5" fill="white"/>
+
+      <!-- Eyebrows -->
+      <path class="eyebrow-left" d="M42,46 Q48,42 54,46" stroke="#800000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path class="eyebrow-right" d="M66,46 Q72,42 78,46" stroke="#800000" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+      <!-- Nose -->
+      <ellipse cx="56" cy="66" rx="3.5" ry="2.5" fill="#C1440E"/>
+      <ellipse cx="64" cy="66" rx="3.5" ry="2.5" fill="#C1440E"/>
+      <line x1="56" y1="66" x2="64" y2="66" stroke="#C1440E" stroke-width="2"/>
+
+      <!-- Mouth - animated when thinking -->
+      <path class="monkey-mouth-idle" d="M52,73 Q60,80 68,73" stroke="#800000" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path class="monkey-mouth-talk" d="M52,73 Q60,82 68,73" stroke="#800000" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0"/>
+
+      <!-- Left arm -->
+      <path class="arm-left" d="M38,95 Q20,88 18,100 Q16,108 26,110" 
+            stroke="#E65100" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <!-- Left hand -->
+      <circle cx="26" cy="112" r="7" fill="#FF8F00"/>
+
+      <!-- Right arm holding gada/mace -->
+      <path class="arm-right" d="M82,95 Q100,88 102,100 Q104,108 94,110"
+            stroke="#E65100" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <!-- Gada (mace) stick -->
+      <line x1="94" y1="112" x2="108" y2="90" stroke="#FFD54F" stroke-width="4" stroke-linecap="round"/>
+      <!-- Gada ball -->
+      <circle cx="110" cy="87" r="7" fill="#FFD54F"/>
+      <circle cx="110" cy="87" r="4" fill="#FF8F00"/>
+
+      <!-- Crown -->
+      <path class="monkey-crown" d="M36,35 L40,20 L50,30 L60,16 L70,30 L80,20 L84,35 Z" fill="#FFD54F"/>
+      <path d="M36,35 L84,35" stroke="#FF8F00" stroke-width="3" fill="none"/>
+      <!-- Crown jewels -->
+      <circle cx="60" cy="22" r="4" fill="#E65100"/>
+      <circle cx="42" cy="28" r="2.5" fill="#E65100"/>
+      <circle cx="78" cy="28" r="2.5" fill="#E65100"/>
+    </svg>
+  </div>
+
+  <button class="chat-fab" aria-label="Talk to Bajrangi AI">
+    🙏 Ask Bajrangi!
+  </button>
+</div>
+
+<!-- Chat Window -->
+<div class="chat-window" [class.open]="isOpen()">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <!-- Mini monkey avatar in header -->
+      <div class="chat-avatar-mini" [class.thinking]="isTyping()">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+          <circle cx="30" cy="30" r="28" fill="#E65100"/>
+          <ellipse cx="30" cy="36" rx="12" ry="9" fill="#FF8F00"/>
+          <ellipse cx="30" cy="36" rx="8" ry="6" fill="#FFD54F"/>
+          <circle cx="22" cy="27" r="5" fill="white"/>
+          <circle cx="38" cy="27" r="5" fill="white"/>
+          <circle class="mini-pupil-l" cx="23" cy="27" r="3" fill="#1A1A1A"/>
+          <circle class="mini-pupil-r" cx="39" cy="27" r="3" fill="#1A1A1A"/>
+          <path d="M25,40 Q30,45 35,40" stroke="#800000" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="11" cy="27" r="7" fill="#E65100"/>
+          <circle cx="49" cy="27" r="7" fill="#E65100"/>
+          <circle cx="11" cy="27" r="3.5" fill="#FF8F00"/>
+          <circle cx="49" cy="27" r="3.5" fill="#FF8F00"/>
+          <path d="M18,17 L20,10 L26,16 L30,8 L34,16 L40,10 L42,17 Z" fill="#FFD54F"/>
+        </svg>
+      </div>
+      <div class="chat-title-container">
+        <h4>Bajrangi 🐒</h4>
+        <span class="online-indicator">{{ isTyping() ? '🐾 Typing...' : 'Spiritual Assistant • Active' }}</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button 
+        class="sound-toggle-btn" 
+        (click)="toggleSound()" 
+        [title]="isSoundEnabled() ? 'Mute Sound Effects & Voice' : 'Enable Sound Effects & Voice'">
+        {{ isSoundEnabled() ? '🔊' : '🔇' }}
+      </button>
+      <button class="chat-close-btn" (click)="toggleChat()">&times;</button>
+    </div>
+  </div>
+
+  <!-- Messages Body -->
+  <div class="chat-messages" #messageBody>
+    @for (msg of messages(); track $index) {
+      <div class="chat-msg-row" [class.devotee-row]="msg.sender === 'devotee'">
+        <div class="chat-msg-avatar">
+          {{ msg.sender === 'bajrangi' ? '🐒' : '👤' }}
+        </div>
+        <div class="chat-msg-bubble">
+          <p>{{ msg.text }}</p>
+          <div class="bubble-footer">
+            @if (msg.sender === 'bajrangi') {
+              <button 
+                class="msg-speak-btn" 
+                (click)="speakMessage(msg.text, $index)" 
+                [class.speaking]="speakingMsgIndex() === $index"
+                [title]="speakingMsgIndex() === $index ? 'Stop Voice' : 'Listen to Bajrangi'">
+                {{ speakingMsgIndex() === $index ? '🛑 Stop' : '🔊 Listen' }}
+              </button>
+            }
+            <span class="chat-msg-time">{{ msg.time | date:'hh:mm a' }}</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Typing Indicator -->
+    @if (isTyping()) {
+      <div class="chat-msg-row">
+        <div class="chat-msg-avatar">🐒</div>
+        <div class="chat-msg-bubble typing-bubble">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Quick Actions Prompts -->
+  <div class="chat-quick-prompts">
+    @for (prompt of quickPrompts; track prompt.text) {
+      <button class="btn-quick-prompt" (click)="sendQuickQuery(prompt.query)">
+        {{ prompt.text }}
+      </button>
+    }
+  </div>
+
+  <!-- Input Footer -->
+  <form class="chat-footer" (submit)="sendMessage(); $event.preventDefault()">
+    <input 
+      type="text" 
+      class="chat-input" 
+      name="userInput"
+      [(ngModel)]="userInput" 
+      placeholder="Type a message to Bajrangi..."
+      autocomplete="off">
+    <button type="submit" class="chat-send-btn" aria-label="Send Message">
+      ➤
+    </button>
+  </form>
+</div>

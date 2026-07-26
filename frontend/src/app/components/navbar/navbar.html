@@ -1,0 +1,59 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a routerLink="/" (click)="closeMenu()" class="logo">
+      <span class="symbol">ॐ</span>
+      <div class="logo-text">
+        <span class="hindi">{{ langService.t('logo.hindi') }}</span>
+        <span class="english">{{ langService.t('logo.english') }}</span>
+      </div>
+    </a>
+
+    <!-- Hamburger menu icon -->
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Toggle Navigation">
+      <span class="bar" [class.open]="isMobileMenuOpen()"></span>
+      <span class="bar" [class.open]="isMobileMenuOpen()"></span>
+      <span class="bar" [class.open]="isMobileMenuOpen()"></span>
+    </button>
+
+    <!-- Navigation links -->
+    <ul class="nav-links" [class.active]="isMobileMenuOpen()">
+      <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">{{ langService.t('nav.home') }}</a></li>
+      <li><a routerLink="/about" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.about') }}</a></li>
+      <li><a routerLink="/aarti" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.aarti') }}</a></li>
+      <li><a routerLink="/chalisa" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.chalisa') }}</a></li>
+      <li><a routerLink="/sundarkand" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.sundarkand') }}</a></li>
+      <li><a routerLink="/live-darshan" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.darshan') }}</a></li>
+      <li><a routerLink="/events" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.events') }}</a></li>
+      <li><a routerLink="/services" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.services') }}</a></li>
+      <li><a routerLink="/gallery" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.gallery') }}</a></li>
+      <li><a routerLink="/devotees" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.devotees') }}</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.contact') }}</a></li>
+      
+      <!-- Session links -->
+      @if (authService.isLoggedIn()) {
+        @if (authService.currentUser()?.role === 'admin') {
+          <li><a routerLink="/admin/dashboard" routerLinkActive="active-link" (click)="closeMenu()" class="admin-link">{{ langService.t('nav.admin') }}</a></li>
+        } @else {
+          <li><a routerLink="/user/dashboard" routerLinkActive="active-link" (click)="closeMenu()" class="admin-link">{{ langService.t('nav.dashboard') }}</a></li>
+        }
+        <li><a href="javascript:void(0)" (click)="logout(); closeMenu()" class="admin-link logout-nav">{{ langService.t('nav.logout') }}</a></li>
+      } @else {
+        <li><a routerLink="/login" routerLinkActive="active-link" (click)="closeMenu()" class="admin-link login-nav">{{ langService.t('nav.login') }}</a></li>
+      }
+
+      <li class="donate-item">
+        <a routerLink="/donate" (click)="closeMenu()" class="btn btn-accent btn-sm">{{ langService.t('nav.donate') }}</a>
+      </li>
+
+      <!-- Theme & Language Toggles -->
+      <li class="controls-item">
+        <button class="toggle-btn" (click)="toggleTheme()" [title]="isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+          {{ isDarkMode() ? '☀️' : '🌙' }}
+        </button>
+        <button class="toggle-btn lang-btn" (click)="toggleLanguage()" [title]="langService.isHindi() ? 'Switch to English' : 'हिंदी में बदलें'">
+          {{ langService.isHindi() ? 'EN' : 'हिं' }}
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
