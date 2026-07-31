@@ -25,3 +25,5 @@ Thumbs.db
 
 # DB Backups
 hanuman_mandir.*.json
+
+.vercel
