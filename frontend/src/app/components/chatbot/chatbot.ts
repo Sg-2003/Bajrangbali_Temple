@@ -1,6 +1,7 @@
-import { Component, OnInit, signal, inject, ElementRef, viewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, signal, inject, ElementRef, viewChild, OnDestroy, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
+import { LanguageService } from '../../services/language.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Chatbot implements OnInit, OnDestroy {
   private apiService = inject(ApiService);
+  public langService = inject(LanguageService);
   
   // Element reference for auto-scroll
   private messageBody = viewChild<ElementRef>('messageBody');
@@ -25,21 +27,65 @@ export class Chatbot implements OnInit, OnDestroy {
 
   messages = signal<Array<{ text: string, sender: 'devotee' | 'bajrangi', time: Date }>>([]);
 
-  quickPrompts = [
-    { text: 'Aarti Timings 🌅', query: 'timings' },
-    { text: 'How to Donate 🪙', query: 'donate' },
-    { text: 'Book a Pooja 🪔', query: 'book pooja' },
-    { text: 'Hanuman Shloka 🚩', query: 'shloka' }
-  ];
+  constructor() {
+    // Pre-warm browser speech synthesis voices
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+      };
+    }
+
+    let lastLang = this.langService.isHindi();
+    effect(() => {
+      const isHindi = this.langService.isHindi();
+      if (isHindi !== lastLang) {
+        lastLang = isHindi;
+        const currentMsgs = this.messages();
+        if (currentMsgs.length === 1 && currentMsgs[0].sender === 'bajrangi') {
+          const updatedText = isHindi
+            ? 'जय श्री राम! 🙏 मैं बजरंगी हूँ, मंदिर का एआई सहायक। आज मैं आपकी क्या सेवा कर सकता हूँ?'
+            : 'Jai Shri Ram! 🙏 I am Bajrangi, the temple\'s AI assistant. How may I serve your spiritual journey today?';
+          
+          this.messages.set([{
+            text: updatedText,
+            sender: 'bajrangi',
+            time: currentMsgs[0].time
+          }]);
+        }
+      }
+    });
+  }
+
+  get currentQuickPrompts() {
+    if (this.langService.isHindi()) {
+      return [
+        { text: 'आरती का समय 🌅', query: 'आरती का समय' },
+        { text: 'दान कैसे करें 🪙', query: 'दान' },
+        { text: 'पूजा बुक करें 🪔', query: 'पूजा बुक करें' },
+        { text: 'हनुमान श्लोक 🚩', query: 'श्लोक' }
+      ];
+    }
+    return [
+      { text: 'Aarti Timings 🌅', query: 'timings' },
+      { text: 'How to Donate 🪙', query: 'donate' },
+      { text: 'Book a Pooja 🪔', query: 'book pooja' },
+      { text: 'Hanuman Shloka 🚩', query: 'shloka' }
+    ];
+  }
 
   ngOnInit() {
     // Generate session ID
     this.session = 'SESS-' + Math.random().toString(36).substring(2, 11).toUpperCase();
     
-    // Add default initial greeting from Bajrangi
+    // Initial greeting based on active site language
+    const greeting = this.langService.isHindi()
+      ? 'जय श्री राम! 🙏 मैं बजरंगी हूँ, मंदिर का एआई सहायक। आज मैं आपकी क्या सेवा कर सकता हूँ?'
+      : 'Jai Shri Ram! 🙏 I am Bajrangi, the temple\'s AI assistant. How may I serve your spiritual journey today?';
+
     this.messages.set([
       {
-        text: 'Jai Shri Ram! 🙏 I am Bajrangi, the temple\'s AI assistant. How may I serve your spiritual journey today?',
+        text: greeting,
         sender: 'bajrangi',
         time: new Date()
       }
@@ -89,8 +135,11 @@ export class Chatbot implements OnInit, OnDestroy {
     this.isTyping.set(true);
     setTimeout(() => this.scrollToBottom(), 50);
 
+    // Get current language ('en' | 'hi')
+    const lang = this.langService.currentLang();
+
     // Call Backend API
-    this.apiService.sendMessageToChat(text, this.session).subscribe({
+    this.apiService.sendMessageToChat(text, this.session, lang).subscribe({
       next: (res) => {
         this.isTyping.set(false);
         const newMsgIndex = this.messages().length;
@@ -113,13 +162,23 @@ export class Chatbot implements OnInit, OnDestroy {
         }
 
         if (this.isSoundEnabled()) {
-          this.speakMessage(res.response, newMsgIndex);
+          setTimeout(() => {
+            // Read rendered translated text from DOM if available
+            const msgParagraphs = this.messageBody()?.nativeElement.querySelectorAll('.chat-msg-bubble p');
+            let textToSpeak = res.response;
+            if (msgParagraphs && msgParagraphs.length > newMsgIndex) {
+              textToSpeak = msgParagraphs[newMsgIndex].innerText || res.response;
+            }
+            this.speakMessage(textToSpeak, newMsgIndex);
+          }, 300);
         }
       },
       error: (err) => {
         console.error(err);
         this.isTyping.set(false);
-        const replyText = 'Jai Shri Ram! Apologies, I am having trouble connecting to the temple servers. Please try again in a moment.';
+        const replyText = this.langService.isHindi()
+          ? 'जय श्री राम! क्षमा करें, मंदिर सर्वर से जुड़ने में समस्या आ रही है। कृपया कुछ क्षणों में पुनः प्रयास करें।'
+          : 'Jai Shri Ram! Apologies, I am having trouble connecting to the temple servers. Please try again in a moment.';
         this.messages.update(msgs => [...msgs, {
           text: replyText,
           sender: 'bajrangi',
@@ -189,18 +248,49 @@ export class Chatbot implements OnInit, OnDestroy {
     }
   }
 
-  // Voice synthesis for message reading
+  // Voice synthesis for message reading (Reads translated text as per current language)
   speakMessage(text: string, msgIndex?: number) {
     if (!('speechSynthesis' in window)) return;
     this.stopSpeech();
 
-    // Strip emojis for cleaner speech
-    const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '');
-    
+    // Strip emojis & extra whitespace for clean voice output
+    const cleanText = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+    if (!cleanText) return;
+
     const utterance = new SpeechSynthesisUtterance(cleanText);
-    const hasHindi = /[\u0900-\u097F]/.test(text);
-    utterance.lang = hasHindi ? 'hi-IN' : 'en-US';
-    utterance.rate = 0.88;
+
+    // Detect if active language or text is Hindi (via LanguageService, Google Translate cookie, or Devanagari script)
+    const isGoogleTransHindi = typeof document !== 'undefined' && 
+      (document.cookie.includes('googtrans=/en/hi') || document.documentElement.classList.contains('translated-ltr'));
+    const isDevanagari = /[\u0900-\u097F]/.test(cleanText);
+    const isHindiMode = this.langService.isHindi() || isGoogleTransHindi || isDevanagari;
+
+    if (isHindiMode) {
+      utterance.lang = 'hi-IN';
+      utterance.rate = 0.9;
+
+      const voices = window.speechSynthesis.getVoices();
+      const hindiVoice = voices.find(v => 
+        v.lang.includes('hi-IN') || 
+        v.lang.includes('hi') || 
+        v.name.toLowerCase().includes('hindi') || 
+        v.name.toLowerCase().includes('kalpana') || 
+        v.name.toLowerCase().includes('hemant') ||
+        v.name.toLowerCase().includes('google हिन्दी')
+      );
+      if (hindiVoice) {
+        utterance.voice = hindiVoice;
+      }
+    } else {
+      utterance.lang = 'en-US';
+      utterance.rate = 0.88;
+
+      const voices = window.speechSynthesis.getVoices();
+      const enVoice = voices.find(v => v.lang.includes('en-IN') || v.lang.includes('en-US'));
+      if (enVoice) {
+        utterance.voice = enVoice;
+      }
+    }
 
     if (msgIndex !== undefined) {
       utterance.onstart = () => this.speakingMsgIndex.set(msgIndex);

@@ -18,6 +18,7 @@ export class Navbar implements OnInit {
 
   isMobileMenuOpen = signal(false);
   isDarkMode = signal(false);
+  clickedItem = signal<string | null>(null);
 
   ngOnInit() {
     const theme = localStorage.getItem('theme');
@@ -33,6 +34,15 @@ export class Navbar implements OnInit {
 
   closeMenu() {
     this.isMobileMenuOpen.set(false);
+  }
+
+  onItemClick(itemKey: string) {
+    if (this.clickedItem() === itemKey) {
+      this.clickedItem.set(null);
+    } else {
+      this.clickedItem.set(itemKey);
+    }
+    this.closeMenu();
   }
 
   toggleTheme() {

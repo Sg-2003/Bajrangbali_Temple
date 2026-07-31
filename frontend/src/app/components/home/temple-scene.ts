@@ -54,14 +54,22 @@ export class TempleScene implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.clock = new Clock();
-      this.initScene();
-      this.buildTemple();
-      this.addLighting();
-      this.addParticles();
-      this.animate();
-      this.setupResize();
-      this.setupMouse();
+      // Defer WebGL 3D building to next frame to allow instant HTML DOM paint
+      requestAnimationFrame(() => {
+        if (!this.canvasRef || !this.canvasRef.nativeElement) return;
+        try {
+          this.clock = new Clock();
+          this.initScene();
+          this.buildTemple();
+          this.addLighting();
+          this.addParticles();
+          this.animate();
+          this.setupResize();
+          this.setupMouse();
+        } catch (e) {
+          console.warn('Temple 3D Scene setup bypassed:', e);
+        }
+      });
     });
   }
 
@@ -90,14 +98,15 @@ export class TempleScene implements AfterViewInit, OnDestroy {
   }
 
   // â”€â”€â”€ SCENE INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ——— SCENE INIT ———————————————————————————————————
   private initScene(): void {
     const canvas = this.canvasRef.nativeElement;
     const parent = canvas.parentElement || canvas.ownerDocument.body;
     const w = canvas.clientWidth || parent.clientWidth || 650;
     const h = canvas.clientHeight || parent.clientHeight || 550;
 
-    this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer = new WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     this.renderer.setSize(w, h, true);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = PCFSoftShadowMap;

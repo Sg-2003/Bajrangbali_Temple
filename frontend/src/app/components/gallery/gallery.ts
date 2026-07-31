@@ -15,56 +15,56 @@ export class Gallery implements OnInit {
   fallbackImages = [
     { 
       id: 1, 
-      url: '/gallery_hanuman.png', 
+      url: '/gallery_hanuman.webp', 
       title: 'Lord Hanuman Holy Idol', 
       category: 'Rituals', 
       desc: 'The magnificent standing Bajrangbali idol adorned in golden shringar and fresh marigold flowers.' 
     },
     { 
       id: 2, 
-      url: '/gallery_maha.png', 
+      url: '/gallery_maha.webp', 
       title: 'Evening Maha Aarti', 
       category: 'Rituals', 
       desc: 'Devotees gather in divine bliss for the daily Sandhya Aarti with multi-tier brass lamps.' 
     },
     { 
       id: 3, 
-      url: '/gallery_temple.png', 
+      url: '/gallery_temple.webp', 
       title: 'Temple Exterior Gopuram', 
       category: 'Campus', 
       desc: 'The majestic architecture of Hanuman Mandir with fluttering saffron flags at sunset.' 
     },
     { 
       id: 4, 
-      url: '/gallery_jayanti.png', 
+      url: '/gallery_jayanti.webp', 
       title: 'Hanuman Jayanti Festival', 
       category: 'Events', 
       desc: 'Grand festive procession, saffron flags, and flower garlands during Hanuman Jayanti.' 
     },
     { 
       id: 5, 
-      url: '/gallery_sundarkand.png', 
+      url: '/gallery_sundarkand.webp', 
       title: 'Sundarkand Path Gathering', 
       category: 'Events', 
       desc: 'Weekly congregational Sundarkand Path recitation every Saturday evening.' 
     },
     { 
       id: 6, 
-      url: '/gallery_banyan.png', 
+      url: '/gallery_banyan.webp', 
       title: 'Sacred Banyan Tree Shrine', 
       category: 'Campus', 
       desc: 'The historic holy Banyan tree shrine wrapped with sacred threads and brass bells.' 
     },
     { 
       id: 7, 
-      url: '/gallery_bhandara.png', 
+      url: '/gallery_bhandara.webp', 
       title: 'Mahaprasad Bhandara Offering', 
       category: 'Events', 
       desc: 'Community Prasad distribution and holy food offering for all visiting devotees.' 
     },
     { 
       id: 8, 
-      url: '/gallery_night.png', 
+      url: '/gallery_night.webp', 
       title: 'Night Temple Illumination', 
       category: 'Campus', 
       desc: 'Temple campus illuminated with thousands of golden oil lamps under the starry sky.' 

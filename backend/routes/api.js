@@ -907,7 +907,7 @@ router.get('/admin/stats', auth, async (req, res) => {
 // ==========================================
 router.post('/chat', async (req, res) => {
   try {
-    const { message, session } = req.body;
+    const { message, session, lang } = req.body;
 
     if (!message || !session) {
       return res.status(400).json({ error: 'Please provide message and session' });
@@ -923,24 +923,49 @@ router.post('/chat', async (req, res) => {
 
     // Generate response
     const msgLower = message.toLowerCase();
+
+    // Determine language response preference (Hindi / Hinglish / English)
+    const isHindiReq = (lang === 'hi') || /[\u0900-\u097F]/.test(message) || 
+      /समय|आरती|पूजा|बुकिंग|दान|चंदा|स्थान|पता|इतिहास|श्लोक|मंत्र|नमस्ते|प्रणाम|जय|kya|hai|kab|kaise|batao|kahan|karna|karo|mujhe|namaste|pranam/i.test(msgLower);
+
     let response = '';
 
-    if (msgLower.includes('timing') || msgLower.includes('darshan') || msgLower.includes('time') || msgLower.includes('close') || msgLower.includes('open') || msgLower.includes('hour') || msgLower.includes('aarti')) {
-      response = "Jai Shri Ram! 🪔 The temple is open daily. Morning Darshan: 06:00 AM to 12:30 PM (Mangala Aarti at 06:30 AM). Evening Darshan: 04:00 PM to 09:00 PM (Sandhya Aarti at 07:00 PM). Saturdays & Tuesdays feature continuous day-long darshan. May Bajrangbali guide your path!";
-    } else if (msgLower.includes('pooja') || msgLower.includes('service') || msgLower.includes('book') || msgLower.includes('sundarkand') || msgLower.includes('chola') || msgLower.includes('shringar') || msgLower.includes('havan') || msgLower.includes('chalisa')) {
-      response = "Jai Bajrangbali! 🙏 We offer several special Poojas: Sundarkand Path (₹1,100), Maha Shringar & Chola Seva (₹2,100), Maruti Havan (₹3,500), and Hanuman Chalisa Archana (₹501). You can book them directly through the 'Pooja Services' section of our website! I can help you with anything else you need.";
-    } else if (msgLower.includes('donate') || msgLower.includes('contribution') || msgLower.includes('money') || msgLower.includes('fund') || msgLower.includes('payment') || msgLower.includes('upi')) {
-      response = "Jai Shri Ram! 🪙 Your generous contributions help us run the daily Annadanam (Prasad distribution), support our Gaushala (cowshed), and maintain the temple complex in Kalikapur. You can securely donate online using UPI, cards, or Netbanking in the 'Donation' page. May Bajrangbali bless you for your generosity!";
-    } else if (msgLower.includes('location') || msgLower.includes('address') || msgLower.includes('where') || msgLower.includes('map') || msgLower.includes('potka') || msgLower.includes('kalikapur') || msgLower.includes('jharkhand') || msgLower.includes('find')) {
-      response = "Jai Hanuman! 📍 The Bajrangbali Hanuman Mandir is situated at Vill-Kalikapur, P.S-Potka, Dist. East Singhbhum, Jharkhand 832113. Google Maps Plus Code: J79R+PQF (just south of Jamshedpur). You can find contact details and a location visualizer on our 'Contact' page!";
-    } else if (msgLower.includes('history') || msgLower.includes('story') || msgLower.includes('origin') || msgLower.includes('about') || msgLower.includes('banyan')) {
-      response = "Jai Bajrangbali! 🌳 The temple started decades ago as a humble village shrine under an ancient sacred Banyan tree. Over time, due to the intense devotion of the Kalikapur village community and visiting devotees, it grew into the beautiful temple complex we have today. You can read more about our heritage in the 'About' section!";
-    } else if (msgLower.includes('shloka') || msgLower.includes('quote') || msgLower.includes('mantra') || msgLower.includes('chant')) {
-      response = "Jai Hanuman! Here is a powerful mantra of Bajrangbali for strength and protection: 'मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम्। वातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये॥' Recite it with faith to overcome all fears!";
-    } else if (msgLower.includes('hello') || msgLower.includes('hi') || msgLower.includes('hey') || msgLower.includes('greet') || msgLower.includes('pranam') || msgLower.includes('namaste') || msgLower.includes('ram ram')) {
-      response = "Jai Shri Ram! 🙏 I am Bajrangi, the temple's AI assistant. I can assist you with temple timings, pooja bookings, donations, history, and location. Ask me anything, or try typing 'timings' or 'bookings'!";
+    if (isHindiReq) {
+      if (msgLower.includes('timing') || msgLower.includes('darshan') || msgLower.includes('time') || msgLower.includes('close') || msgLower.includes('open') || msgLower.includes('hour') || msgLower.includes('aarti') || msgLower.includes('सम') || msgLower.includes('आरती') || msgLower.includes('दर्शन') || msgLower.includes('kab') || msgLower.includes('khulega') || msgLower.includes('samay')) {
+        response = "जय श्री राम! 🪔 मंदिर प्रतिदिन खुला रहता है। प्रातः दर्शन: सुबह 06:00 बजे से दोपहर 12:30 बजे तक (मंगला आरती सुबह 06:30 बजे)। संध्या दर्शन: शाम 04:00 बजे से रात्रि 09:00 बजे तक (संध्या आरती शाम 07:00 बजे)। मंगलवार और शनिवार को दिनभर दर्शन उपलब्ध रहते हैं। श्री बजरंगबली आपका कल्याण करें!";
+      } else if (msgLower.includes('pooja') || msgLower.includes('puja') || msgLower.includes('service') || msgLower.includes('book') || msgLower.includes('sundarkand') || msgLower.includes('chola') || msgLower.includes('shringar') || msgLower.includes('havan') || msgLower.includes('chalisa') || msgLower.includes('पूजा') || msgLower.includes('सेवा') || msgLower.includes('चोला') || msgLower.includes('हवन') || msgLower.includes('rate') || msgLower.includes('price')) {
+        response = "जय बजरंगी! 🙏 हम विशेष पूजा सेवाएं प्रदान करते हैं: सुंदरकांड पाठ (₹1,100), महा श्रृंगार एवं चोला सेवा (₹2,100), मारुति हवन (₹3,500), तथा हनुमान चालीसा अर्चना (₹501)। आप वेबसाइट के 'पूजा सेवाएं' अनुभाग से सीधे ऑनलाइन बुकिंग कर सकते हैं!";
+      } else if (msgLower.includes('donate') || msgLower.includes('donation') || msgLower.includes('contribution') || msgLower.includes('money') || msgLower.includes('fund') || msgLower.includes('payment') || msgLower.includes('upi') || msgLower.includes('दान') || msgLower.includes('चंदा') || msgLower.includes('योगदान') || msgLower.includes('paise') || msgLower.includes('dan')) {
+        response = "जय श्री राम! 🪙 आपका पवित्र दान दैनिक अन्नदानम (महाप्रसाद वितरण), गौशाला सेवा और पोटका मंदिर के सौंदर्यीकरण में प्रयुक्त होता है। आप 'दान करें' पृष्ठ से UPI, कार्ड या नेटबैंकिंग द्वारा सुरक्षित रूप से दान दे सकते हैं। श्री हनुमान जी की कृपा आप पर सदैव बनी रहे!";
+      } else if (msgLower.includes('location') || msgLower.includes('address') || msgLower.includes('where') || msgLower.includes('map') || msgLower.includes('potka') || msgLower.includes('kalikapur') || msgLower.includes('jharkhand') || msgLower.includes('find') || msgLower.includes('पता') || msgLower.includes('स्थान') || msgLower.includes('कहा') || msgLower.includes('kahan') || msgLower.includes('kaha') || msgLower.includes('pata')) {
+        response = "जय हनुमान! 📍 बजरंगबली हनुमान मंदिर ग्राम-कालिकापुर, थाना-पोटका, जिला-पूर्वी सिंहभूम, झारखंड 832113 में स्थित है। गूगल मैप्स प्लस कोड: J79R+PQF (जमशेदपुर से निकट)। अधिक जानकारी हेतु 'संपर्क' पृष्ठ देखें!";
+      } else if (msgLower.includes('history') || msgLower.includes('story') || msgLower.includes('origin') || msgLower.includes('about') || msgLower.includes('banyan') || msgLower.includes('इतिहास') || msgLower.includes('कहानी') || msgLower.includes('बरगद') || msgLower.includes('itihas') || msgLower.includes('katha')) {
+        response = "जय बजरंगी! 🌳 मंदिर की शुरुआत दशकों पूर्व एक पावन बरगद के वृक्ष के नीचे छोटे से पावन स्थल के रूप में हुई थी। कालिकापुर निवासियों और भक्तों की अटूट भक्ति से यह एक भव्य मंदिर धाम बना। अधिक जानने के लिए 'हमारे बारे में' पृष्ठ देखें!";
+      } else if (msgLower.includes('shloka') || msgLower.includes('sloka') || msgLower.includes('quote') || msgLower.includes('mantra') || msgLower.includes('chant') || msgLower.includes('श्लोक') || msgLower.includes('मंत्र')) {
+        response = "जय हनुमान! संकटमोचन श्री बजरंगबली का यह अलौकिक श्लोक श्रद्धापूर्वक जपें: 'मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम्। वातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये॥' यह आपके समस्त कष्ट दूर करेगा!";
+      } else if (msgLower.includes('hello') || msgLower.includes('hi') || msgLower.includes('hey') || msgLower.includes('greet') || msgLower.includes('pranam') || msgLower.includes('namaste') || msgLower.includes('ram ram') || msgLower.includes('नमस्ते') || msgLower.includes('प्रणाम') || msgLower.includes('राम')) {
+        response = "जय श्री राम! 🙏 मैं बजरंगी हूँ, मंदिर का एआई सहायक। मैं आपकी आरती समय, पूजा बुकिंग, दान, इतिहास और मंदिर के स्थान के बारे में सहायता कर सकता हूँ। आप क्या पूछना चाहते हैं?";
+      } else {
+        response = "जय श्री राम! मैं बजरंगी हूँ, मंदिर का एआई सहायक। मैं आपकी सेवा में सदैव तत्पर हूँ। आप मुझसे आरती के समय, पूजा सेवाओं, दान विधि, पोटका मंदिर के इतिहास या श्लोक के बारे में पूछ सकते हैं।";
+      }
     } else {
-      response = "Jai Shri Ram! I am Bajrangi, the temple AI assistant. I am here to help you. I can tell you about our Aarti timings, Pooja services, how to donate, the history of the Kalikapur Mandir, or share a shloka. What would you like to know?";
+      if (msgLower.includes('timing') || msgLower.includes('darshan') || msgLower.includes('time') || msgLower.includes('close') || msgLower.includes('open') || msgLower.includes('hour') || msgLower.includes('aarti')) {
+        response = "Jai Shri Ram! 🪔 The temple is open daily. Morning Darshan: 06:00 AM to 12:30 PM (Mangala Aarti at 06:30 AM). Evening Darshan: 04:00 PM to 09:00 PM (Sandhya Aarti at 07:00 PM). Saturdays & Tuesdays feature continuous day-long darshan. May Bajrangbali guide your path!";
+      } else if (msgLower.includes('pooja') || msgLower.includes('puja') || msgLower.includes('service') || msgLower.includes('book') || msgLower.includes('sundarkand') || msgLower.includes('chola') || msgLower.includes('shringar') || msgLower.includes('havan') || msgLower.includes('chalisa') || msgLower.includes('rate') || msgLower.includes('price')) {
+        response = "Jai Bajrangbali! 🙏 We offer several special Poojas: Sundarkand Path (₹1,100), Maha Shringar & Chola Seva (₹2,100), Maruti Havan (₹3,500), and Hanuman Chalisa Archana (₹501). You can book them directly through the 'Pooja Services' section of our website! I can help you with anything else you need.";
+      } else if (msgLower.includes('donate') || msgLower.includes('donation') || msgLower.includes('contribution') || msgLower.includes('money') || msgLower.includes('fund') || msgLower.includes('payment') || msgLower.includes('upi')) {
+        response = "Jai Shri Ram! 🪙 Your generous contributions help us run the daily Annadanam (Prasad distribution), support our Gaushala (cowshed), and maintain the temple complex in Kalikapur. You can securely donate online using UPI, cards, or Netbanking in the 'Donation' page. May Bajrangbali bless you for your generosity!";
+      } else if (msgLower.includes('location') || msgLower.includes('address') || msgLower.includes('where') || msgLower.includes('map') || msgLower.includes('potka') || msgLower.includes('kalikapur') || msgLower.includes('jharkhand') || msgLower.includes('find') || msgLower.includes('contact') || msgLower.includes('phone')) {
+        response = "Jai Hanuman! 📍 The Bajrangbali Hanuman Mandir is situated at Vill-Kalikapur, P.S-Potka, Dist. East Singhbhum, Jharkhand 832113. Google Maps Plus Code: J79R+PQF (just south of Jamshedpur). You can find contact details and a location visualizer on our 'Contact' page!";
+      } else if (msgLower.includes('history') || msgLower.includes('story') || msgLower.includes('origin') || msgLower.includes('about') || msgLower.includes('banyan') || msgLower.includes('tree')) {
+        response = "Jai Bajrangbali! 🌳 The temple started decades ago as a humble village shrine under an ancient sacred Banyan tree. Over time, due to the intense devotion of the Kalikapur village community and visiting devotees, it grew into the beautiful temple complex we have today. You can read more about our heritage in the 'About' section!";
+      } else if (msgLower.includes('shloka') || msgLower.includes('sloka') || msgLower.includes('quote') || msgLower.includes('mantra') || msgLower.includes('chant')) {
+        response = "Jai Hanuman! Here is a powerful mantra of Bajrangbali for strength and protection: 'मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम्। वातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये॥' Recite it with faith to overcome all fears!";
+      } else if (msgLower.includes('hello') || msgLower.includes('hi') || msgLower.includes('hey') || msgLower.includes('greet') || msgLower.includes('pranam') || msgLower.includes('namaste') || msgLower.includes('ram ram')) {
+        response = "Jai Shri Ram! 🙏 I am Bajrangi, the temple's AI assistant. I can assist you with temple timings, pooja bookings, donations, history, and location. Ask me anything, or try typing 'timings' or 'bookings'!";
+      } else {
+        response = "Jai Shri Ram! I am Bajrangi, the temple AI assistant. I am here to help you. I can tell you about our Aarti timings, Pooja services, how to donate, the history of the Kalikapur Mandir, or share a shloka. What would you like to know?";
+      }
     }
 
     // Save response

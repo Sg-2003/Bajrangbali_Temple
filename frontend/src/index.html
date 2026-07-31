@@ -6,19 +6,118 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23E65100%22>ॐ</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style type="text/css">
+    /* Initial app loading screen styles */
+    .app-bootstrap-loader {
+      position: fixed;
+      inset: 0;
+      background-color: #12100E;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+      color: #F5E6D3;
+    }
+    .loader-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .sacred-glow-symbol {
+      font-size: 5rem;
+      color: #FF8F00;
+      line-height: 1;
+      margin-bottom: 20px;
+      position: relative;
+      animation: divinePulse 2s infinite ease-in-out;
+      text-shadow: 0 0 25px rgba(255, 111, 0, 0.6);
+      font-weight: 500;
+    }
+    .spinner-ring-loader {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255, 143, 0, 0.1);
+      border-top-color: #FF8F00;
+      border-radius: 50%;
+      animation: spinCircular 1s infinite linear;
+      margin-bottom: 25px;
+      box-shadow: 0 0 15px rgba(255, 143, 0, 0.25);
+    }
+    .loader-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      color: #FFD54F;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      font-weight: 600;
+      animation: fadePulse 1.8s infinite ease-in-out;
+    }
+    .loader-subtitle {
+      font-size: 0.85rem;
+      color: #BCAAA4;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
+    @keyframes divinePulse {
+      0%, 100% {
+        transform: scale(0.95);
+        text-shadow: 0 0 15px rgba(255, 111, 0, 0.4);
+      }
+      50% {
+        transform: scale(1.06);
+        text-shadow: 0 0 35px rgba(255, 111, 0, 0.85);
+      }
+    }
+    @keyframes spinCircular {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes fadePulse {
+      0%, 100% { opacity: 0.65; }
+      50% { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-  <app-root></app-root>
+  <app-root>
+    <!-- Instant loading screen inside app-root -->
+    <div class="app-bootstrap-loader">
+      <div class="loader-container">
+        <div class="sacred-glow-symbol">ॐ</div>
+        <div class="spinner-ring-loader"></div>
+        <p class="loader-title">जय श्री राम • जय हनुमान</p>
+        <p class="loader-subtitle">Loading Bajrangbali Temple Portal...</p>
+      </div>
+    </div>
+  </app-root>
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        includedLanguages: 'en,hi',
-        autoDisplay: false
-      }, 'google_translate_element');
+      try {
+        if (window.google && window.google.translate && window.google.translate.TranslateElement) {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi',
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+      } catch (err) {
+        console.warn('Google Translate init suppressed:', err);
+      }
     }
   </script>
-  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 </body>
 </html>
+
+

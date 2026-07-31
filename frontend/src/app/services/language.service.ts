@@ -38,7 +38,7 @@ export class LanguageService {
     const savedLang = localStorage.getItem('lang');
     if (savedLang === 'hi' || savedLang === 'hindi') {
       this.currentLang.set('hi');
-      setTimeout(() => this.applyTranslate('hi'), 500);
+      queueMicrotask(() => this.applyTranslate('hi'));
     } else {
       this.currentLang.set('en');
     }
@@ -70,22 +70,10 @@ export class LanguageService {
     document.cookie = `googtrans=${targetCode}; path=/; domain=${domain}`;
     document.cookie = `googtrans=${targetCode}; path=/;`;
 
-    // Try finding the Google combo element
     const combo = document.querySelector('.goog-te-combo') as HTMLSelectElement;
     if (combo) {
       combo.value = lang === 'hi' ? 'hi' : 'en';
       combo.dispatchEvent(new Event('change'));
-    } else {
-      // If script hasn't populated combo yet, retry in 300ms or reload
-      setTimeout(() => {
-        const retryCombo = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-        if (retryCombo) {
-          retryCombo.value = lang === 'hi' ? 'hi' : 'en';
-          retryCombo.dispatchEvent(new Event('change'));
-        } else {
-          window.location.reload();
-        }
-      }, 400);
     }
   }
 }

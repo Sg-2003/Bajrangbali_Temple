@@ -25,6 +25,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  text-decoration: none;
 }
 
 .logo .symbol {
@@ -61,58 +62,96 @@
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 20px;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
 }
 
 .nav-links a {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--text-dark);
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
-  padding: 6px 0;
+  padding: 8px 12px;
+  border-radius: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: transparent;
 }
 
+.nav-icon {
+  font-size: 1.15rem;
+  color: var(--primary-dark);
+  transition: transform 0.25s ease, color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.nav-text {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.25s ease;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0;
+}
+
+/* Hover, Active Link, and Clicked state expansions */
 .nav-links a:hover,
-.nav-links a.active-link {
+.nav-links a.active-link,
+.nav-links a.show-text {
   color: var(--primary);
+  background: rgba(230, 81, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(230, 81, 0, 0.12);
 }
 
+.nav-links a:hover .nav-icon,
+.nav-links a.active-link .nav-icon,
+.nav-links a.show-text .nav-icon {
+  color: var(--primary);
+  transform: scale(1.15);
+}
+
+.nav-links a:hover .nav-text,
+.nav-links a.active-link .nav-text,
+.nav-links a.show-text .nav-text {
+  max-width: 140px;
+  opacity: 1;
+  margin-left: 7px;
+}
+
+/* Remove default underline after element */
 .nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--accent);
-  transition: var(--transition);
-}
-
-.nav-links a:hover::after,
-.nav-links a.active-link::after {
-  width: 100%;
-}
-
-.donate-item a::after {
-  display: none !important;
+  display: none;
 }
 
 .nav-links .donate-item a {
-  padding: 8px 20px !important;
+  padding: 8px 14px !important;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #FF6F00, #FF9100) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  border-radius: 20px !important;
+  border-radius: 25px !important;
   border: none !important;
   text-decoration: none;
   box-shadow: 0 4px 10px rgba(255, 111, 0, 0.25);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-  line-height: 1 !important;
+}
+
+.nav-links .donate-item a .nav-icon {
+  color: #ffffff !important;
 }
 
 .nav-links .donate-item a:hover {
@@ -121,12 +160,8 @@
   background: linear-gradient(135deg, #FF9100, #FF6F00) !important;
 }
 
-.nav-links .donate-item a:active {
-  transform: translateY(0) !important;
-}
-
 .btn-sm {
-  padding: 8px 20px;
+  padding: 8px 16px;
   font-size: 0.85rem;
   border-radius: 20px;
 }
@@ -159,19 +194,12 @@
   100% { transform: scale(1); }
 }
 
-/* Responsive CSS */
-@media (max-width: 992px) {
-  .nav-links {
-    gap: 15px;
-  }
-}
-
 /* Controls Item & Toggle Buttons */
 .controls-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-left: 10px;
+  gap: 8px;
+  margin-left: 6px;
 }
 
 .toggle-btn {
@@ -211,6 +239,7 @@
   color: #C62828 !important;
 }
 
+/* Mobile Responsive CSS */
 @media (max-width: 1150px) {
   .menu-toggle {
     display: flex;
@@ -225,10 +254,12 @@
     background-color: var(--bg-card);
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: stretch;
     padding-top: 90px;
     padding-bottom: 30px;
-    gap: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 14px;
     box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
     transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     border-left: 2px solid rgba(230, 81, 0, 0.1);
@@ -240,7 +271,16 @@
   }
 
   .nav-links a {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    padding: 10px 16px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .nav-links a .nav-text {
+    max-width: none !important;
+    opacity: 1 !important;
+    margin-left: 12px !important;
   }
 
   /* Hamburger transform when menu is open */
@@ -252,18 +292,5 @@
   }
   .menu-toggle .bar.open:nth-child(3) {
     transform: translateY(-9px) rotate(-45deg);
-  }
-}
-
-@media (max-width: 1300px) and (min-width: 1150px) {
-  .nav-links {
-    gap: 12px;
-  }
-  .nav-links a {
-    font-size: 0.85rem;
-  }
-  .nav-links .donate-item a {
-    padding: 8px 14px !important;
-    font-size: 0.8rem;
   }
 }

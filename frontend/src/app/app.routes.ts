@@ -1,39 +1,24 @@
 import { Routes } from '@angular/router';
-import { Home } from './components/home/home';
-import { About } from './components/about/about';
-import { Services } from './components/services/services';
-import { DevoteeBoard } from './components/devotee-board/devotee-board';
-import { Donation } from './components/donation/donation';
-import { Gallery } from './components/gallery/gallery';
-import { Contact } from './components/contact/contact';
-import { Aarti } from './components/aarti/aarti';
-import { Chalisa } from './components/chalisa/chalisa';
-import { Events } from './components/events/events';
-import { AdminLogin } from './components/admin/login/login';
-import { Register } from './components/admin/register/register';
-import { AdminDashboard } from './components/admin/dashboard/dashboard';
-import { Sundarkand } from './components/sundarkand/sundarkand';
-import { LiveDarshan } from './components/live-darshan/live-darshan';
-import { UserDashboard } from './components/user-dashboard/user-dashboard';
 import { authGuard } from './core/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: Home },
-  { path: 'about', component: About },
-  { path: 'aarti', component: Aarti },
-  { path: 'chalisa', component: Chalisa },
-  { path: 'sundarkand', component: Sundarkand },
-  { path: 'live-darshan', component: LiveDarshan },
-  { path: 'events', component: Events },
-  { path: 'services', component: Services },
-  { path: 'devotees', component: DevoteeBoard },
-  { path: 'donate', component: Donation },
-  { path: 'gallery', component: Gallery },
-  { path: 'contact', component: Contact },
-  { path: 'login', component: AdminLogin },
+  { path: '', loadComponent: () => import('./components/home/home').then(m => m.Home) },
+  { path: 'about', loadComponent: () => import('./components/about/about').then(m => m.About) },
+  { path: 'aarti', loadComponent: () => import('./components/aarti/aarti').then(m => m.Aarti) },
+  { path: 'chalisa', loadComponent: () => import('./components/chalisa/chalisa').then(m => m.Chalisa) },
+  { path: 'sundarkand', loadComponent: () => import('./components/sundarkand/sundarkand').then(m => m.Sundarkand) },
+  { path: 'live-darshan', loadComponent: () => import('./components/live-darshan/live-darshan').then(m => m.LiveDarshan) },
+  { path: 'events', loadComponent: () => import('./components/events/events').then(m => m.Events) },
+  { path: 'services', loadComponent: () => import('./components/services/services').then(m => m.Services) },
+  { path: 'devotees', loadComponent: () => import('./components/devotee-board/devotee-board').then(m => m.DevoteeBoard) },
+  { path: 'donate', loadComponent: () => import('./components/donation/donation').then(m => m.Donation) },
+  { path: 'gallery', loadComponent: () => import('./components/gallery/gallery').then(m => m.Gallery) },
+  { path: 'contact', loadComponent: () => import('./components/contact/contact').then(m => m.Contact) },
+  { path: 'login', loadComponent: () => import('./components/admin/login/login').then(m => m.AdminLogin) },
   { path: 'admin/login', redirectTo: 'login' },
-  { path: 'register', component: Register },
-  { path: 'admin/dashboard', component: AdminDashboard, canActivate: [authGuard] },
-  { path: 'user/dashboard', component: UserDashboard, canActivate: [authGuard] },
+  { path: 'register', loadComponent: () => import('./components/admin/register/register').then(m => m.Register) },
+  { path: 'admin/dashboard', loadComponent: () => import('./components/admin/dashboard/dashboard').then(m => m.AdminDashboard), canActivate: [authGuard] },
+  { path: 'user/dashboard', loadComponent: () => import('./components/user-dashboard/user-dashboard').then(m => m.UserDashboard), canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];
+

@@ -1,31 +1,28 @@
-import { Component, OnInit, HostListener, signal, inject } from '@angular/core';
+import { Component, AfterViewInit, HostListener, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Footer } from './components/footer/footer';
-import { Chatbot } from './components/chatbot/chatbot';
+import { ChatbotLoader } from './components/chatbot/chatbot-loader';
 import { ApiService } from './services/api.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Navbar, Footer, Chatbot, CommonModule],
+  imports: [RouterOutlet, Navbar, Footer, ChatbotLoader, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit {
+export class App implements AfterViewInit {
   private apiService = inject(ApiService);
 
   title = 'Bajrangbali Hanuman Mandir Website';
   activeAnnouncement = signal<any>(null);
+  private scrollTicking = false;
 
-  ngOnInit() {
-    // Initial scroll check to reveal elements currently in viewport
-    setTimeout(() => {
-      this.revealElements();
-    }, 300);
+  ngAfterViewInit() {
+    this.revealElements();
 
-    // Fetch announcements and check for high-priority alerts
     this.apiService.getAnnouncements().subscribe({
       next: (res) => {
         const highAlert = res.find(a => a.priority === 'high');
@@ -43,7 +40,13 @@ export class App implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.revealElements();
+    if (!this.scrollTicking) {
+      this.scrollTicking = true;
+      requestAnimationFrame(() => {
+        this.revealElements();
+        this.scrollTicking = false;
+      });
+    }
   }
 
   private revealElements() {

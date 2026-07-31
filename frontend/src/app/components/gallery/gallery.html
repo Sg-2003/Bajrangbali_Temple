@@ -24,7 +24,7 @@
     @for (image of filteredImages(); track image.id) {
       <div class="gallery-item card reveal" (click)="openLightbox(image)">
         <div class="gallery-image-wrapper">
-          <img [src]="image.url" [alt]="image.title" class="gallery-img">
+          <img [src]="image.url" [alt]="image.title" class="gallery-img" loading="lazy" decoding="async">
           <div class="gallery-overlay">
             <span class="zoom-icon">🔍</span>
             <h3>{{ image.title }}</h3>
@@ -44,7 +44,7 @@
     <button class="lightbox-nav prev" (click)="prevImage(); $event.stopPropagation()">&lsaquo;</button>
     
     <div class="lightbox-content" (click)="$event.stopPropagation()">
-      <img [src]="activeImage()?.url" [alt]="activeImage()?.title" class="lightbox-img">
+      <img [src]="activeImage()?.url" [alt]="activeImage()?.title" class="lightbox-img" loading="lazy" decoding="async">
       <div class="lightbox-caption">
         <h3>{{ activeImage()?.title }}</h3>
         <p>{{ activeImage()?.desc }}</p>

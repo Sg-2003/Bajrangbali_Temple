@@ -18,7 +18,7 @@
       @for (event of events(); track event.title) {
         <div class="card event-card">
           <div class="event-banner">
-            <img [src]="event.banner || '/gallery_jayanti.png'" [alt]="event.title" onerror="this.src='/gallery_jayanti.png'">
+            <img [src]="event.banner || '/gallery_jayanti.webp'" [alt]="event.title" onerror="this.src='/gallery_jayanti.webp'" loading="lazy" decoding="async">
             <div class="event-date-tag">
               <span class="day">{{ event.date | date: 'dd' }}</span>
               <span class="month">{{ event.date | date: 'MMM' }}</span>

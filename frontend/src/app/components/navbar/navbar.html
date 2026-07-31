@@ -17,32 +17,150 @@
 
     <!-- Navigation links -->
     <ul class="nav-links" [class.active]="isMobileMenuOpen()">
-      <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">{{ langService.t('nav.home') }}</a></li>
-      <li><a routerLink="/about" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.about') }}</a></li>
-      <li><a routerLink="/aarti" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.aarti') }}</a></li>
-      <li><a routerLink="/chalisa" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.chalisa') }}</a></li>
-      <li><a routerLink="/sundarkand" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.sundarkand') }}</a></li>
-      <li><a routerLink="/live-darshan" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.darshan') }}</a></li>
-      <li><a routerLink="/events" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.events') }}</a></li>
-      <li><a routerLink="/services" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.services') }}</a></li>
-      <li><a routerLink="/gallery" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.gallery') }}</a></li>
-      <li><a routerLink="/devotees" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.devotees') }}</a></li>
-      <li><a routerLink="/contact" routerLinkActive="active-link" (click)="closeMenu()">{{ langService.t('nav.contact') }}</a></li>
-      
+      <li>
+        <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" 
+           [class.show-text]="clickedItem() === 'home'"
+           (click)="onItemClick('home')" title="Home">
+          <i class="fa-solid fa-house nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.home') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/about" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'about'"
+           (click)="onItemClick('about')" title="About">
+          <i class="fa-solid fa-circle-info nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.about') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/aarti" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'aarti'"
+           (click)="onItemClick('aarti')" title="Aarti">
+          <i class="fa-solid fa-fire nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.aarti') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/chalisa" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'chalisa'"
+           (click)="onItemClick('chalisa')" title="Chalisa">
+          <i class="fa-solid fa-scroll nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.chalisa') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/sundarkand" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'sundarkand'"
+           (click)="onItemClick('sundarkand')" title="Sundarkand">
+          <i class="fa-solid fa-book-open-reader nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.sundarkand') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/live-darshan" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'darshan'"
+           (click)="onItemClick('darshan')" title="Live Darshan">
+          <i class="fa-solid fa-video nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.darshan') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/events" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'events'"
+           (click)="onItemClick('events')" title="Events">
+          <i class="fa-solid fa-calendar-days nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.events') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/services" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'services'"
+           (click)="onItemClick('services')" title="Services">
+          <i class="fa-solid fa-hand-holding-heart nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.services') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/gallery" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'gallery'"
+           (click)="onItemClick('gallery')" title="Gallery">
+          <i class="fa-solid fa-images nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.gallery') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/devotees" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'devotees'"
+           (click)="onItemClick('devotees')" title="Devotees">
+          <i class="fa-solid fa-users nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.devotees') }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/contact" routerLinkActive="active-link" 
+           [class.show-text]="clickedItem() === 'contact'"
+           (click)="onItemClick('contact')" title="Contact">
+          <i class="fa-solid fa-phone nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.contact') }}</span>
+        </a>
+      </li>
+
       <!-- Session links -->
       @if (authService.isLoggedIn()) {
         @if (authService.currentUser()?.role === 'admin') {
-          <li><a routerLink="/admin/dashboard" routerLinkActive="active-link" (click)="closeMenu()" class="admin-link">{{ langService.t('nav.admin') }}</a></li>
+          <li>
+            <a routerLink="/admin/dashboard" routerLinkActive="active-link" 
+               [class.show-text]="clickedItem() === 'admin'"
+               (click)="onItemClick('admin')" class="admin-link" title="Admin">
+              <i class="fa-solid fa-user-shield nav-icon"></i>
+              <span class="nav-text">{{ langService.t('nav.admin') }}</span>
+            </a>
+          </li>
         } @else {
-          <li><a routerLink="/user/dashboard" routerLinkActive="active-link" (click)="closeMenu()" class="admin-link">{{ langService.t('nav.dashboard') }}</a></li>
+          <li>
+            <a routerLink="/user/dashboard" routerLinkActive="active-link" 
+               [class.show-text]="clickedItem() === 'dashboard'"
+               (click)="onItemClick('dashboard')" class="admin-link" title="Dashboard">
+              <i class="fa-solid fa-gauge nav-icon"></i>
+              <span class="nav-text">{{ langService.t('nav.dashboard') }}</span>
+            </a>
+          </li>
         }
-        <li><a href="javascript:void(0)" (click)="logout(); closeMenu()" class="admin-link logout-nav">{{ langService.t('nav.logout') }}</a></li>
+        <li>
+          <a href="javascript:void(0)" 
+             [class.show-text]="clickedItem() === 'logout'"
+             (click)="logout(); onItemClick('logout')" class="admin-link logout-nav" title="Logout">
+            <i class="fa-solid fa-right-from-bracket nav-icon"></i>
+            <span class="nav-text">{{ langService.t('nav.logout') }}</span>
+          </a>
+        </li>
       } @else {
-        <li><a routerLink="/login" routerLinkActive="active-link" (click)="closeMenu()" class="admin-link login-nav">{{ langService.t('nav.login') }}</a></li>
+        <li>
+          <a routerLink="/login" routerLinkActive="active-link" 
+             [class.show-text]="clickedItem() === 'login'"
+             (click)="onItemClick('login')" class="admin-link login-nav" title="Login">
+            <i class="fa-solid fa-right-to-bracket nav-icon"></i>
+            <span class="nav-text">{{ langService.t('nav.login') }}</span>
+          </a>
+        </li>
       }
 
       <li class="donate-item">
-        <a routerLink="/donate" (click)="closeMenu()" class="btn btn-accent btn-sm">{{ langService.t('nav.donate') }}</a>
+        <a routerLink="/donate" (click)="onItemClick('donate')" class="btn btn-accent btn-sm" title="Donate">
+          <i class="fa-solid fa-heart nav-icon"></i>
+          <span class="nav-text">{{ langService.t('nav.donate') }}</span>
+        </a>
       </li>
 
       <!-- Theme & Language Toggles -->

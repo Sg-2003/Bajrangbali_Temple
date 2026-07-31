@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api';
+  private apiUrl = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')
+    ? 'http://localhost:5000/api'
+    : 'https://bajrangbali-temple-backend.onrender.com/api'; // Will be replaced by Cloud Run URL after deployment
 
   // ==========================================
   // POOJA BOOKINGS
@@ -177,7 +179,7 @@ export class ApiService {
   // ==========================================
   // AI CHATBOT
   // ==========================================
-  sendMessageToChat(message: string, session: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/chat`, { message, session });
+  sendMessageToChat(message: string, session: string, lang: string = 'en'): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/chat`, { message, session, lang });
   }
 }

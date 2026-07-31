@@ -85,7 +85,7 @@
   </div>
 
   <button class="chat-fab" aria-label="Talk to Bajrangi AI">
-    🙏 Ask Bajrangi!
+    {{ langService.isHindi() ? '🙏 बजरंगी से पूछें!' : '🙏 Ask Bajrangi!' }}
   </button>
 </div>
 
@@ -114,14 +114,16 @@
       </div>
       <div class="chat-title-container">
         <h4>Bajrangi 🐒</h4>
-        <span class="online-indicator">{{ isTyping() ? '🐾 Typing...' : 'Spiritual Assistant • Active' }}</span>
+        <span class="online-indicator">
+          {{ isTyping() ? (langService.isHindi() ? '🐾 टाइप कर रहे हैं...' : '🐾 Typing...') : (langService.isHindi() ? 'आध्यात्मिक सहायक • सक्रिय' : 'Spiritual Assistant • Active') }}
+        </span>
       </div>
     </div>
     <div class="header-actions">
       <button 
         class="sound-toggle-btn" 
         (click)="toggleSound()" 
-        [title]="isSoundEnabled() ? 'Mute Sound Effects & Voice' : 'Enable Sound Effects & Voice'">
+        [title]="isSoundEnabled() ? (langService.isHindi() ? 'ध्वनि और आवाज बंद करें' : 'Mute Sound Effects & Voice') : (langService.isHindi() ? 'ध्वनि और आवाज चालू करें' : 'Enable Sound Effects & Voice')">
         {{ isSoundEnabled() ? '🔊' : '🔇' }}
       </button>
       <button class="chat-close-btn" (click)="toggleChat()">&times;</button>
@@ -136,15 +138,15 @@
           {{ msg.sender === 'bajrangi' ? '🐒' : '👤' }}
         </div>
         <div class="chat-msg-bubble">
-          <p>{{ msg.text }}</p>
+          <p #msgContent>{{ msg.text }}</p>
           <div class="bubble-footer">
             @if (msg.sender === 'bajrangi') {
               <button 
                 class="msg-speak-btn" 
-                (click)="speakMessage(msg.text, $index)" 
+                (click)="speakMessage(msgContent.innerText || msg.text, $index)" 
                 [class.speaking]="speakingMsgIndex() === $index"
-                [title]="speakingMsgIndex() === $index ? 'Stop Voice' : 'Listen to Bajrangi'">
-                {{ speakingMsgIndex() === $index ? '🛑 Stop' : '🔊 Listen' }}
+                [title]="speakingMsgIndex() === $index ? (langService.isHindi() ? 'आवाज रोकें' : 'Stop Voice') : (langService.isHindi() ? 'अनुवादित आवाज सुनें' : 'Listen translated speech')">
+                {{ speakingMsgIndex() === $index ? (langService.isHindi() ? '🛑 रोकें' : '🛑 Stop') : (langService.isHindi() ? '🔊 सुनें' : '🔊 Listen') }}
               </button>
             }
             <span class="chat-msg-time">{{ msg.time | date:'hh:mm a' }}</span>
@@ -168,7 +170,7 @@
 
   <!-- Quick Actions Prompts -->
   <div class="chat-quick-prompts">
-    @for (prompt of quickPrompts; track prompt.text) {
+    @for (prompt of currentQuickPrompts; track prompt.text) {
       <button class="btn-quick-prompt" (click)="sendQuickQuery(prompt.query)">
         {{ prompt.text }}
       </button>
@@ -182,7 +184,7 @@
       class="chat-input" 
       name="userInput"
       [(ngModel)]="userInput" 
-      placeholder="Type a message to Bajrangi..."
+      [placeholder]="langService.isHindi() ? 'बजरंगी से कुछ पूछें...' : 'Type a message to Bajrangi...'"
       autocomplete="off">
     <button type="submit" class="chat-send-btn" aria-label="Send Message">
       ➤

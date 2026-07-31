@@ -167,9 +167,9 @@
                     <span class="badge" [class.badge-pending]="booking.paymentStatus === 'Pending'" [class.badge-approved]="booking.paymentStatus === 'Paid'">
                       {{ booking.paymentStatus }}
                     </span>
-                    @if (booking.paymentStatus === 'Pending') {
-                      <button class="btn btn-secondary btn-sm" style="margin-top: 5px; padding: 2px 6px; font-size: 0.7rem; display: block;" (click)="updateBookingPaymentStatus(booking._id, 'Paid')">Mark Paid</button>
-                    }
+                     @if (booking.paymentStatus === 'Pending') {
+                       <button class="btn btn-secondary btn-xs btn-block" (click)="updateBookingPaymentStatus(booking._id, 'Paid')">Mark Paid</button>
+                     }
                   </td>
                   <td><span class="status-indicator" [class]="booking.status | lowercase">{{ booking.status }}</span></td>
                   <td>
@@ -293,7 +293,7 @@
               <div class="list-item">
                 <div class="item-details">
                   <h4>{{ puja.title }}</h4>
-                  <span class="price-duration-badge" style="font-size: 0.8rem; color: var(--primary); font-weight: bold;">₹{{ puja.price }} • {{ puja.duration }}</span>
+                   <span class="price-duration-badge">₹{{ puja.price }} • {{ puja.duration }}</span>
                 </div>
                 <div class="btn-group">
                   <button class="btn btn-secondary btn-sm" (click)="editPuja(puja)">✏️</button>
@@ -345,9 +345,9 @@
                         <button class="btn btn-sm" [class.btn-primary]="user.isSuspended" [class.btn-secondary]="!user.isSuspended" (click)="toggleUserSuspension(user._id)">
                           {{ user.isSuspended ? 'Unsuspend' : 'Suspend' }}
                         </button>
-                        <button class="btn btn-secondary btn-sm delete-btn" (click)="deleteUser(user._id)" style="margin-left: 5px;">
-                          Delete
-                        </button>
+                         <button class="btn btn-secondary btn-sm delete-btn btn-gap-left" (click)="deleteUser(user._id)">
+                           Delete
+                         </button>
                       </div>
                     } @else {
                       <span class="action-done">System Owner</span>
@@ -402,9 +402,9 @@
               <div class="list-item">
                 <div class="item-details">
                   <h4>{{ ann.title }}</h4>
-                  <span class="badge" [class.badge-rejected]="ann.priority === 'high'" [class.badge-pending]="ann.priority === 'medium'" [class.badge-approved]="ann.priority === 'low'" style="font-size: 0.65rem;">
-                    {{ ann.priority }} priority
-                  </span>
+                   <span class="badge badge-rejected badge-xs">
+                     {{ ann.priority }} priority
+                   </span>
                 </div>
                 <button class="btn btn-secondary btn-sm delete-btn" (click)="deleteAnnouncement(ann._id)">🗑️</button>
               </div>

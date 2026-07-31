@@ -22,3 +22,6 @@ bazel-out/
 # OS Files
 Thumbs.db
 .DS_Store
+
+# DB Backups
+hanuman_mandir.*.json

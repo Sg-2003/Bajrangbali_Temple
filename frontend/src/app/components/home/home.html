@@ -10,7 +10,18 @@
   <div class="hero-layout">
     <!-- 3D Temple (Three.js Canvas) -->
     <div class="temple-scene">
-      <app-temple-scene></app-temple-scene>
+      @defer (on timer(100ms)) {
+        <app-temple-scene></app-temple-scene>
+      } @placeholder {
+        <div class="temple-scene-placeholder-loader">
+          <div class="divine-spinner">
+            <div class="spinner-dot"></div>
+            <div class="spinner-dot"></div>
+            <div class="spinner-dot"></div>
+          </div>
+          <span class="scene-loader-text">Invoking Sacred 3D Darshan...</span>
+        </div>
+      }
     </div>
 
     <!-- Hero Text -->
