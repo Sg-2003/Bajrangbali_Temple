@@ -89,6 +89,35 @@ body.dark-mode .sidebar {
 .logout-btn {
   width: 100%;
   padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #d32f2f !important;
+  background: rgba(211, 47, 47, 0.08) !important;
+  border: 1px solid rgba(211, 47, 47, 0.2) !important;
+  padding: 6px 8px !important;
+  border-radius: 6px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #d32f2f !important;
+  color: #fff !important;
+  border-color: #d32f2f !important;
+}
+
+.btn-icon {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* Main Content */
