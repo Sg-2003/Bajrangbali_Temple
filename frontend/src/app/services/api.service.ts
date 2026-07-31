@@ -9,7 +9,7 @@ export class ApiService {
   private http = inject(HttpClient);
   private apiUrl = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')
     ? 'http://localhost:5000/api'
-    : 'https://bajrangbali-temple-backend.onrender.com/api'; // Will be replaced by Cloud Run URL after deployment
+    : '/api';
 
   // ==========================================
   // POOJA BOOKINGS

@@ -9,7 +9,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')
     ? 'http://localhost:5000/api/auth'
-    : 'https://bajrangbali-temple-backend.onrender.com/api/auth'; // Will be replaced by Cloud Run URL after deployment
+    : '/api/auth';
 
   currentUser = signal<any>(null);
   token = signal<string | null>(null);
