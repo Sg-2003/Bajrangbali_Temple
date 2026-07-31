@@ -43,77 +43,76 @@
   font-size: 0.95rem;
 }
 
-/* Prayer Note (Sticky Note Style) */
+/* Premium Devotional Cards */
 .prayers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
 }
 
 .prayer-note {
-  background: linear-gradient(135deg, #FFFDE7, #FFF9C4);
-  border-radius: 8px;
-  padding: 25px 20px 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 30px 24px 20px;
+  box-shadow: var(--shadow);
   position: relative;
   transition: var(--transition);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 200px;
-  border: 1px solid rgba(255, 213, 79, 0.4);
+  min-height: 220px;
+  border: 1px solid rgba(255, 111, 0, 0.12);
+  border-top: 4px solid var(--primary);
 }
 
 .prayer-note:hover {
-  transform: translateY(-5px) rotate(1deg);
-  box-shadow: 0 10px 20px rgba(230, 81, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255, 111, 0, 0.35);
 }
 
-.prayer-note:nth-child(even):hover {
-  transform: translateY(-5px) rotate(-1deg);
-}
-
-.pin {
+.devotional-accent {
   position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  top: 12px;
+  right: 16px;
+  font-size: 1.3rem;
+  filter: drop-shadow(0 2px 5px rgba(255, 111, 0, 0.25));
 }
 
 .prayer-body {
   flex-grow: 1;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-bottom: 22px;
 }
 
 .prayer-msg {
   font-family: 'Outfit', sans-serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--text-dark);
-  font-style: italic;
-  line-height: 1.6;
+  font-style: normal;
+  line-height: 1.65;
   white-space: pre-wrap;
 }
 
 .prayer-footer {
-  border-top: 1px dashed rgba(230, 81, 0, 0.15);
-  padding-top: 12px;
+  border-top: 1px dashed rgba(255, 111, 0, 0.16);
+  padding-top: 14px;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
 
 .devotee-name {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  color: var(--primary-dark);
-  font-size: 0.9rem;
+  color: var(--primary);
+  font-size: 0.95rem;
 }
 
 .prayer-date {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--text-light);
 }
 
