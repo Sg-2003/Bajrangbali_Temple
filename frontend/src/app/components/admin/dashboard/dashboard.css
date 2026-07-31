@@ -120,20 +120,6 @@ body.dark-mode .sidebar {
   vertical-align: middle;
 }
 
-.logout-btn .btn-icon {
-  width: 19px;
-  height: 19px;
-  stroke: currentColor;
-  stroke-width: 0.8px;
-}
-
-.delete-btn .btn-icon {
-  width: 17px;
-  height: 17px;
-  stroke: currentColor;
-  stroke-width: 0.8px;
-}
-
 /* Main Content */
 .main-content {
   padding: 40px;
